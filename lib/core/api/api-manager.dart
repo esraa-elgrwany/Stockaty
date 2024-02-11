@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:my_shopping_app/core/utils/constants.dart';
 
-class ApiManager{
+@singleton
+class ApiManager {
+  Dio dio = Dio();
 
-  Dio dio=Dio();
-
- Future<Response> getData(String endPoint, {Map<String, dynamic>?data}){
-  return dio.get(Constants.baseUrl+endPoint,queryParameters: data);
+  Future<Response> getData(String endPoint, {Map<String, dynamic>? data}) {
+    return dio.get(Constants.baseUrl + endPoint, queryParameters: data);
   }
 
-  postData(String endPoint,Map<String,dynamic>body){
-    return dio.post(Constants.baseUrl+endPoint,data: body);
+  postData(String endPoint, Map<String, dynamic> body) {
+    return dio.post(Constants.baseUrl + endPoint, data: body);
   }
 }

@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_shopping_app/features/SignUp/presentation/pages/signup_screen.dart';
 import 'package:my_shopping_app/features/home/presentation/pages/home_screen.dart';
 
 import 'package:my_shopping_app/features/login/presentation/pages/login_screen.dart';
 
+import '../../features/ProductDetails/presentation/pages/product_details.dart';
+
 
 class RoutesName {
   static const String login = "/";
   static const String signup = "signup";
   static const String home = "home";
+  static const String productDetails = "productDetails";
 }
 
 class AppRouter {
@@ -27,16 +29,20 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => HomeScreen(),
         );
+      case RoutesName.productDetails:
+        return MaterialPageRoute(
+          builder: (context) => ProductDetails(),
+        );
         default:
           return MaterialPageRoute(
-            builder: (context) => UnDefinedScreen(),
+            builder: (context) => UnDefineScreen(),
           );
     }
   }
-  static Widget UnDefinedScreen(){
+  static Widget UnDefineScreen(){
     return Scaffold(
       appBar: AppBar(
-          title: Text("Undefined page"),
+          title: Text("Undefine page"),
       ),
       body: Center(
         child: Text("Page not found"),

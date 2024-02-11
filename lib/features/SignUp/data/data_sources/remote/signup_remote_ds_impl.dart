@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:my_shopping_app/core/api/api-manager.dart';
+import 'package:my_shopping_app/core/api/end_points.dart';
 import 'package:my_shopping_app/core/errors/failures.dart';
 import 'package:my_shopping_app/core/utils/constants.dart';
 import 'package:my_shopping_app/features/SignUp/data/data_sources/remote/signup_remote_ds.dart';
@@ -16,12 +17,11 @@ class SignUpRemoteDSImpl implements SignUpRemoteDs {
   Future<Either<Failures, UserModel>>? signUp(RequestModel requestModel) async {
     try {
       Response response =
-          await apiManager.postData(Constants.baseUrl, requestModel.toJason());
+          await apiManager.postData(EndPoints.signUp, requestModel.toJason());
       UserModel userModel = UserModel.fromJson(response.data);
-      print(userModel.user?.name);
       return Right(userModel);
     } catch (e) {
-      return left(RemoteFailures(e.toString()));
+      return left(ServerFailure(errormsg: e.toString()));
     }
   }
 }

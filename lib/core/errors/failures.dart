@@ -1,15 +1,14 @@
-abstract class Failures{
-  String message;
-  Failures(this.message);
 
-  @override
-  String toString() {
-    return message;
-  }
+abstract class Failures{
+  String? errormsg;
+  Failures({required this.errormsg});
+
 }
-class RemoteFailures extends Failures{
-  RemoteFailures(super.message);
+class ServerFailure extends Failures {
+  ServerFailure({required super.errormsg});
 }
+
 class LocalFailures extends Failures{
-  LocalFailures(super.message);
+  LocalFailures({required super.errormsg});
+
 }

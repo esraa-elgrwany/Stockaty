@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:my_shopping_app/core/api/api-manager.dart';
 import 'package:my_shopping_app/core/errors/failures.dart';
@@ -31,11 +32,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           screenState: ScreenState.loading
         ));
         ApiManager apiManager = ApiManager();
-        RemoteDs remoteDs = RemoteDsImpl(apiManager);
-        LoginRepo loginRepo = LoginRepoImpl(remoteDs);
-        LoginUseCase loginUseCase = LoginUseCase(loginRepo);
-
-        var result = await loginUseCase.call(emailController.text, passwordController.text);
+        RemoteDs remoteDs=RemoteDsImpl(apiManager);
+        LoginRepo loginRepo=LoginRepoImpl(remoteDs);
+        LoginUseCase loginUseCase=LoginUseCase(loginRepo);
+        var result = await loginUseCase.call(emailController.text,
+            passwordController.text);
         result.fold((l) {
           emit(state.copyWith(
             screenState:ScreenState.failure ,

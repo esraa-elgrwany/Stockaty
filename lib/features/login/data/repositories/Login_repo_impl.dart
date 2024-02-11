@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:my_shopping_app/core/api/api-manager.dart';
 import 'package:my_shopping_app/core/errors/failures.dart';
 import 'package:my_shopping_app/features/SignUp/domain/entities/UserEntity.dart';
@@ -13,7 +14,7 @@ class LoginRepoImpl implements LoginRepo{
     try{
    return remoteDs.Login(email, password);
     }catch(e){
-      throw RemoteFailures("Something went wrong");
+      throw ServerFailure(errormsg: "Something went wrong");
     }
   }
 

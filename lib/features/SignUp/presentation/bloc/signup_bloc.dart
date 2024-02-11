@@ -20,37 +20,42 @@ part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  TextEditingController nameController=TextEditingController();
-  TextEditingController emailController=TextEditingController();
-  TextEditingController phoneController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
-  static SignupBloc get(context)=> BlocProvider.of(context);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  static SignupBloc get(context) => BlocProvider.of(context);
+
   SignupBloc() : super(SignupInitial()) {
     on<SignupEvent>((event, emit) async {
       if (event is SignUpBtnClick) {
-        emit(state.copyWith(screenState: ScreenState.loading));
-        ApiManager apiManager = ApiManager();
-        SignUpRemoteDs remoteDs = SignUpRemoteDSImpl(apiManager);
-        SignUpRepo signUpRepo = SignUpRepoImpl(remoteDs);
-        SignUpUseCase signUpUseCase = SignUpUseCase(signUpRepo);
-        RequestModel requestModel = RequestModel(
-            name:  nameController.text,
-            email: emailController.text,
-            password: passwordController.text,
-            phone: phoneController.text);
-          var result=await signUpUseCase.call(requestModel);
-          
-          result?.fold((l) =>emit(state.copyWith(
-              screenState: ScreenState.failure,
-              failures: RemoteFailures(l.toString())))
-          , (r) => emit(state.copyWith(
-                  userEntity: r,
-                  screenState: ScreenState.success)));
+        if (formKey.currentState?.validate() == true) {
+          emit(state.copyWith(screenState: ScreenState.loading));
 
+          ApiManager apiManager = ApiManager();
+          SignUpRemoteDs remoteDs = SignUpRemoteDSImpl(apiManager);
+          SignUpRepo signUpRepo = SignUpRepoImpl(remoteDs);
+          SignUpUseCase signUpUseCase = SignUpUseCase(signUpRepo);
+          RequestModel requestModel = RequestModel(
+              name: nameController.text,
+              email: emailController.text,
+              password: passwordController.text,
+              phone: phoneController.text);
 
+          var result = await signUpUseCase.call(requestModel);
 
-
+          result?.fold(
+                  (l) =>
+                  emit(state.copyWith(
+                      screenState: ScreenState.failure,
+                      failures: ServerFailure(errormsg:l.toString()))),
+                  (r) =>
+                  emit(state.copyWith(
+                      userEntity: r, screenState: ScreenState.success)));
+        }
       }
     });
   }
