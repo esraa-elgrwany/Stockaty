@@ -21,124 +21,145 @@ class ProductListItem extends StatelessWidget {
         Navigator.pushNamed(context,RoutesName.productDetails,arguments: item);
       },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
+      height: 237.h,
+      width: 191.w,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
           border: Border.all(
-            color: CustomColors.borderColor,
-            width: 2.0.w,
-          ),
-        ),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Column(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  child: Image.network(
-                    item.images?[0] ?? "",
-                    fit: BoxFit.cover,
-                    width: 191.0.w,
-                    height: 126.0.h,
-                  ),
+              color: const Color(0xff004182).withOpacity(.3), width: 2.w)),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.r),
+                    topRight: Radius.circular(15.r)),
+                child: Image.network(
+                  item.imageCover ?? "",
+                  height: 128.h,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        item.title ?? "",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14.0.sp,
-                          color: CustomColors.textColor,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title ?? "",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: const Color(0xff06004F)),
+                    ),
+                    Text(
+                      item.description ?? "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: const Color(0xff06004F)),
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          item.price.toString(),
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              color: const Color(0xff06004F)),
                         ),
-                      ),
-                      SizedBox(
-                        height: 8.0.h,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                           "${item.price}",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14.0.sp,
-                              color: CustomColors.textColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16.0.w,
-                          ),
-                          Text(
-                            "${item.price}",
-                            style: GoogleFonts.poppins(
-                              fontSize: 11.0.sp,
-                              color: CustomColors.oldPriceColor,
-                              fontWeight: FontWeight.w400,
+                        SizedBox(
+                          width: 16.w,
+                        ),
+                        Text(
+                          (item.price ?? 50 - 50).toString(),
+                          style: GoogleFonts.poppins(
                               decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8.0.h,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Review (${item?.ratingsAverage})',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12.0.sp,
-                              color: CustomColors.textColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 4.0.w,
-                          ),
-                          Image.asset(
-                            'assets/images/star.png',
-                          ),
-                          const Spacer(),
-                          InkWell(
-                            child: Image.asset(
-                              'assets/images/icon _plus circle_.png',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                              decorationColor:
+                              const Color(0xff004182).withOpacity(.6)
+                              // Replace with your desired color
+                              ,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11.sp,
+                              color: const Color(0xff004182).withOpacity(.6)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Review (${item.ratingsAverage})',
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.sp,
+                              color: const Color(0xff06004F)),
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: const Color(0xffFDD835),
+                          size: 15.h,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: () {
+                  // fav = !fav;
+                  // setState(() {});
+                },
+                child: CircleAvatar(
+                  radius: 15.r,
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(Icons.favorite_border),
                   ),
                 ),
-              ],
+              ),
             ),
-    InkWell(
-    onTap: () {},
-    child: Container(
-    child: Center(
-    child: Icon(Icons.favorite_outline,
-    color: Color(0xFF06004F))),
-    height: 35,
-    decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(20)),
-    width: 35),
-    ),
-
-          ],
-        ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: InkWell(
+                onTap: () {
+                },
+                child: CircleAvatar(
+                  radius: 15.r,
+                  backgroundColor: const Color(0xff004182),
+                  child: const Center(
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
+        ),
     );
   }
-}
-
-class CustomColors {
-  static Color textColor = const Color(0xFF06004F);
-  static Color oldPriceColor = const Color(0xFF004182).withOpacity(0.6);
-  static Color borderColor = const Color(0xFF004182).withOpacity(0.3);
 }

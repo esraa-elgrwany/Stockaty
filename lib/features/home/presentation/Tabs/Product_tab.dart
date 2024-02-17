@@ -12,7 +12,6 @@ class ProductsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(items.length);
     return Container(
       height:600.h,
         child: GridView.builder(

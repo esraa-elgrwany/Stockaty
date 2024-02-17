@@ -31,8 +31,10 @@ class AppRouter {
           builder: (context) => HomeScreen(),
         );
       case RoutesName.productDetails:
+        ProductData productData =
+        settings.arguments as ProductData;
         return MaterialPageRoute(
-          builder: (context) => ProductDetails(),
+          builder: (context) => ProductDetails(productData),
         );
         default:
           return MaterialPageRoute(

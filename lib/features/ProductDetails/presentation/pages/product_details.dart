@@ -5,8 +5,8 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
 class ProductDetails extends StatelessWidget {
-
-  ProductDetails({super.key});
+  ProductData item;
+  ProductDetails(this.item);
 
   List<Color> clrs = [
     Color(0xFF2F2929),
@@ -19,8 +19,8 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var item=ModalRoute.of(context)?.
-    settings.arguments as ProductData;
+   // var item=ModalRoute.of(context)?.
+    //settings.arguments as ProductData;
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.transparent,
