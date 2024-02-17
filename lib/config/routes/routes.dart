@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shopping_app/features/SignUp/presentation/pages/signup_screen.dart';
+import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 import 'package:my_shopping_app/features/home/presentation/pages/home_screen.dart';
 
 import 'package:my_shopping_app/features/login/presentation/pages/login_screen.dart';

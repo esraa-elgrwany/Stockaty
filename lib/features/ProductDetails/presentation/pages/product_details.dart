@@ -2,8 +2,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
 class ProductDetails extends StatelessWidget {
+
   ProductDetails({super.key});
 
   List<Color> clrs = [
@@ -17,6 +19,8 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var item=ModalRoute.of(context)?.
+    settings.arguments as ProductData;
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -57,11 +61,11 @@ class ProductDetails extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Image.asset("assets/images/p2.png"),
+                              child: Image.network(item.images?[0]??""),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Image.asset("assets/images/p2.png"),
+                              child: Image.network(item.images?[1]??""),
                             ),
                           ]),
                     ),
@@ -100,12 +104,12 @@ class ProductDetails extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Apple Watch",
+                        Text(item.title??"",
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF06004F))),
-                        Text("EGP 3,500",
+                        Text(item.price.toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -123,7 +127,7 @@ class ProductDetails extends StatelessWidget {
                           height: 40,
                           child: Center(
                             child: Text(
-                              "3,230 Sold",
+                              "${item.sold} sold",
                               style: TextStyle(color: Color(0xFF06004F)),
                             ),
                           ),
@@ -138,7 +142,7 @@ class ProductDetails extends StatelessWidget {
                               children: [
                                 Icon(Icons.star, color: Colors.amberAccent),
                                 SizedBox(width: 5),
-                                Text("(450)"),
+                                Text("${item.ratingsAverage}"),
                               ],
                             )),
                         Container(
@@ -177,7 +181,7 @@ class ProductDetails extends StatelessWidget {
                             color: Color(0xFF06004F))),
                     SizedBox(height: 5),
                     Text(
-                      "Apple Watch Series 6 reveals a refined taste of beauty and technologyA glossy and skin-friendly fluoroelastomer band ensures a comfortable wearing.",
+                      "${item.description}",
                       style: TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                     SizedBox(height: 5),
@@ -274,7 +278,7 @@ class ProductDetails extends StatelessWidget {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black45)),
-                    Text("EGP 3,500",
+                    Text("${item.price}",
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

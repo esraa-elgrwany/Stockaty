@@ -14,7 +14,7 @@ class LoginRepoImpl implements LoginRepo{
     try{
    return remoteDs.Login(email, password);
     }catch(e){
-      throw ServerFailure(errormsg: "Something went wrong");
+      throw ServerFailure( e.toString());
     }
   }
 

@@ -18,7 +18,7 @@ class SignUpRepoImpl implements SignUpRepo{
  try{
    return remoteDs.signUp(requestModel);
  }catch(e){
-   throw Exception();
+   throw ServerFailure( e.toString());
  }
   }
 

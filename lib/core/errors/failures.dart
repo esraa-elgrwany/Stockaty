@@ -1,14 +1,18 @@
 
 abstract class Failures{
-  String? errormsg;
-  Failures({required this.errormsg});
+  String errormsg;
+  Failures( this.errormsg);
 
+  @override
+  toString(){
+    return errormsg;
+  }
 }
 class ServerFailure extends Failures {
-  ServerFailure({required super.errormsg});
+  ServerFailure(super.errormsg);
 }
 
 class LocalFailures extends Failures{
-  LocalFailures({required super.errormsg});
+  LocalFailures( super.errormsg);
 
 }

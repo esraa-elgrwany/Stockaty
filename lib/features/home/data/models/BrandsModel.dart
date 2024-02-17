@@ -1,22 +1,22 @@
-class CategoryAndBrandEntity {
-  CategoryAndBrandEntity({
+class BrandsModel {
+  BrandsModel({
       this.results, 
       this.metadata, 
       this.data,});
 
-  CategoryAndBrandEntity.fromJson(dynamic json) {
+  BrandsModel.fromJson(dynamic json) {
     results = json['results'];
     metadata = json['metadata'] != null ? Metadata.fromJson(json['metadata']) : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(Data.fromJson(v));
+        data?.add(BrandsData.fromJson(v));
       });
     }
   }
   int? results;
   Metadata? metadata;
-  List<Data>? data;
+  List<BrandsData>? data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -32,8 +32,8 @@ class CategoryAndBrandEntity {
 
 }
 
-class Data {
-  Data({
+class BrandsData {
+  BrandsData({
       this.id, 
       this.name, 
       this.slug, 
@@ -41,7 +41,7 @@ class Data {
       this.createdAt, 
       this.updatedAt,});
 
-  Data.fromJson(dynamic json) {
+  BrandsData.fromJson(dynamic json) {
     id = json['_id'];
     name = json['name'];
     slug = json['slug'];
@@ -73,22 +73,26 @@ class Metadata {
   Metadata({
       this.currentPage, 
       this.numberOfPages, 
-      this.limit,});
+      this.limit, 
+      this.nextPage,});
 
   Metadata.fromJson(dynamic json) {
     currentPage = json['currentPage'];
     numberOfPages = json['numberOfPages'];
     limit = json['limit'];
+    nextPage = json['nextPage'];
   }
   int? currentPage;
   int? numberOfPages;
   int? limit;
+  int? nextPage;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['currentPage'] = currentPage;
     map['numberOfPages'] = numberOfPages;
     map['limit'] = limit;
+    map['nextPage'] = nextPage;
     return map;
   }
 

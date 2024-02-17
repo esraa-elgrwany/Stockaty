@@ -51,7 +51,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
                   (l) =>
                   emit(state.copyWith(
                       screenState: ScreenState.failure,
-                      failures: ServerFailure(errormsg:l.toString()))),
+                      failures: ServerFailure( l.toString()))),
                   (r) =>
                   emit(state.copyWith(
                       userEntity: r, screenState: ScreenState.success)));

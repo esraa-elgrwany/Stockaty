@@ -1,5 +1,5 @@
 
-import 'package:my_shopping_app/features/SignUp/data/models/SignupError.dart';
+import 'package:my_shopping_app/features/SignUp/data/models/ErrorModel.dart';
 import 'package:my_shopping_app/features/SignUp/domain/entities/UserEntity.dart';
 
 class UserModel extends UserEntity{
@@ -13,13 +13,13 @@ class UserModel extends UserEntity{
   UserModel.fromJson(dynamic json) {
     message = json['message'];
     statusMsg = json['statusMsg'];
-    error = json['errors'] != null ? Error.fromJson(json['errors']) : null;
+    error = json['errors'] != null ? ErrorModel.fromJson(json['errors']) : null;
     user = json['user'] != null ? UserDataModel.fromJson(json['user']) : null;
     token = json['token'];
   }
   String? message;
   String? statusMsg;
-  Error ?error;
+  ErrorModel ?error;
 
   @override
   // TODO: implement props

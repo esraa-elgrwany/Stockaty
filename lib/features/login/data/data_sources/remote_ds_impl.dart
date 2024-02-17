@@ -7,6 +7,8 @@ import 'package:my_shopping_app/core/errors/failures.dart';
 import 'package:my_shopping_app/features/SignUp/data/models/UserModel.dart';
 import 'package:my_shopping_app/features/login/data/data_sources/remote_ds.dart';
 
+import '../../../SignUp/data/models/ErrorModel.dart';
+
 class RemoteDsImpl implements RemoteDs{
   ApiManager apiManager;
   RemoteDsImpl(this.apiManager);
@@ -20,7 +22,13 @@ class RemoteDsImpl implements RemoteDs{
     UserModel userModel = UserModel.fromJson(response.data);
     return Right(userModel);
   } catch (e) {
-  return left(ServerFailure(errormsg: e.toString()));
-  }
+      if(e is DioException) {
+        ErrorModel userError = ErrorModel.fromJson(e.response?.data);
+        return left(ServerFailure( userError.message??"error"));
+      }else{
+        return left(ServerFailure( "error"));
+      }
+
+}
   }
 }
