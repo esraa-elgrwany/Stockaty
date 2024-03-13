@@ -18,7 +18,7 @@ class SignUpRemoteDSImpl implements SignUpRemoteDs {
   Future<Either<Failures, UserModel>>? signUp(RequestModel requestModel) async {
     try {
       Response response =
-          await apiManager.postData(EndPoints.signUp, requestModel.toJason());
+          await apiManager.postData(EndPoints.signUp,body:  requestModel.toJason());
       UserModel userModel = UserModel.fromJson(response.data);
       return Right(userModel);
     } catch (e) {

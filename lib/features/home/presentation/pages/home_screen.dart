@@ -7,9 +7,12 @@ import 'package:my_shopping_app/features/home/presentation/Tabs/Product_tab.dart
 import 'package:my_shopping_app/features/home/presentation/Tabs/Setting_Tab.dart';
 import 'package:my_shopping_app/features/home/presentation/manager/home_bloc.dart';
 
+import '../../../../core/utils/app_colors.dart';
 import '../../data/models/AddToCartModel.dart';
 import '../../data/models/CategoryAndBrandModel.dart';
 import '../../data/models/ProductsModel.dart';
+import '../widgets/Active_tab.dart';
+import '../widgets/not_active_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,69 +44,59 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("My Cart"),
-              backgroundColor: Colors.transparent,
+              title: Text("Stock Cart",style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color:primaryColor),
+              ),
+              backgroundColor: Colors.white.withOpacity(0.2),
+              elevation: 0,
             ),
-            bottomNavigationBar: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: BottomNavigationBar(
-                  currentIndex: state.index,
-                  onTap: (value) {
-                    BlocProvider.of<HomeBloc>(context)
-                        .add(ChangeBottomNavBar(value));
-                  },
-                  showSelectedLabels: false,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home_outlined, size: 35,),
-                        label: "",
-                        backgroundColor: Color(0xff004182)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.grid_view, size: 35,),
-                        label: "",
-                        backgroundColor: Color(0xff004182)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.favorite_border, size: 35,),
-                        label: "",
-                        backgroundColor: Color(0xff004182)),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.settings, size: 35,),
-                        label: "",
-                        backgroundColor: Color(0xff004182)),
-                  ]),
-            ),
+            bottomNavigationBar:
+             ClipRRect(
+          borderRadius: BorderRadius.only(
+          topRight: Radius.circular(24.r),
+          topLeft: Radius.circular(24.r),
+          ),
+               child: BottomNavigationBar(
+                      currentIndex: state.index,
+                      onTap: (value) {
+                        BlocProvider.of<HomeBloc>(context)
+                            .add(ChangeBottomNavBar(value));
+                      },
+                      showSelectedLabels: false,
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: NotActiveTab(icon: "assets/images/home.png"),
+                          label: "",
+                          activeIcon: ActiveTab(icon:"assets/images/home.png"),
+                        ),
+                        BottomNavigationBarItem(
+                          icon: NotActiveTab(icon:"assets/images/cat.png"),
+                          label: '',
+                          activeIcon: ActiveTab(icon:"assets/images/cat.png"),
+                        ),
+                        BottomNavigationBarItem(
+                          icon: NotActiveTab(icon:"assets/images/heart.png"),
+                          label: '',
+                          activeIcon: ActiveTab(icon:"assets/images/heart.png"),
+                        ),
+                        BottomNavigationBarItem(
+                          icon: NotActiveTab(icon:"assets/images/user (1) 3.png"),
+                          label: '',
+                          activeIcon: ActiveTab(icon:"assets/images/user (1) 3.png"),
+                        ),
+                      ]),
+             ),
             body:
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SearchBar(
-                              hintText: "Search",
-                              leading: Icon(
-                                Icons.search, size: 35, color: Colors.grey,),
-                              shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadiusDirectional
-                                          .circular(24)
-                                  )),
-                            ),
-                          ),
-                          IconButton(onPressed: () {
-
-                          }, icon: Icon(Icons.shopping_cart, size: 35,),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-
-                      tabs(state.categories ?? [], state.products ?? []) [state.index],
-                    ],
-                  ),
+                  children: [
+                    tabs(state.categories ?? [],state.brands??[], state.products ?? [])
+                    [state.index],
+                  ],
+                ),
               ),
           );
         },
@@ -111,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> tabs(List<Data> cat, List<ProductData> prod) =>
-      [HomeTab(cat), ProductsTab(prod),FavTab(),SettingTab()];
+  List<Widget> tabs(List<Data> cat,List<Data> brand, List<ProductData> prod) =>
+      [HomeTab(cat,brand,prod), ProductsTab(prod),FavTab(),SettingTab()];
 }
 

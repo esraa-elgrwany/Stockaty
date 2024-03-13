@@ -10,6 +10,8 @@ enum ScreenType {
   categoryError,
   productSuccess,
   productError,
+  addToCartSuccess,
+  addToCartError
 }
 
 @immutable
@@ -18,8 +20,11 @@ class HomeState {
   List<Data>? brands;
   List<Data>? categories;
   List<ProductData>? products;
+  AddToCartModel? addToCartModel;
   Failures? failures;
   int index;
+
+
 
   HomeState(
       {this.type,
@@ -27,7 +32,9 @@ class HomeState {
         this.brands,
         this.categories,
         this.failures,
-        this.index = 0,});
+        this.addToCartModel,
+        this.index = 0,
+        });
 
   HomeState copWith({
     ScreenType? type,
@@ -35,6 +42,7 @@ class HomeState {
     List<Data>? categories,
     List<ProductData>? products,
     Failures? failures,
+    AddToCartModel? addToCartModel,
     int index = 0,
   }) {
     return HomeState(
@@ -42,8 +50,9 @@ class HomeState {
         brands: brands ?? this.brands,
         categories: categories ?? this.categories,
         products: products ?? this.products,
+        addToCartModel: addToCartModel??this.addToCartModel,
         failures: failures ?? this.failures,
-       index: index ?? this.index
+       index: index ?? 0,
       );
   }
 }

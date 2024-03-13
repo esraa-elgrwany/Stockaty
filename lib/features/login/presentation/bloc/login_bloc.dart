@@ -9,6 +9,8 @@ import 'package:my_shopping_app/core/api/api-manager.dart';
 import 'package:my_shopping_app/core/errors/failures.dart';
 import 'package:my_shopping_app/features/SignUp/domain/entities/UserEntity.dart';
 import 'package:my_shopping_app/features/SignUp/presentation/bloc/signup_bloc.dart';
+import 'package:my_shopping_app/features/login/data/data_sources/local/login_local_ds.dart';
+import 'package:my_shopping_app/features/login/data/data_sources/local/login_local_ds_impl.dart';
 import 'package:my_shopping_app/features/login/data/data_sources/remote_ds.dart';
 import 'package:my_shopping_app/features/login/data/data_sources/remote_ds_impl.dart';
 import 'package:my_shopping_app/features/login/data/repositories/Login_repo_impl.dart';
@@ -22,12 +24,14 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   TextEditingController emailController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
-
+  bool secure=true;
+  var formKey = GlobalKey<FormState>();
   static LoginBloc get(context) => BlocProvider.of(context);
 
   LoginBloc() : super(LoginInitial()) {
     on<LoginEvent>((event, emit) async {
       if (event is LoginBtnClickEvent) {
+        if (formKey.currentState?.validate() == true) {
         emit(state.copyWith(
           screenState: ScreenState.loading
         ));
@@ -47,6 +51,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             screenState: ScreenState.success,
               userEntity: r));
         });
+      }
       }
     });
   }

@@ -1,20 +1,20 @@
-class AddToCartModel {
-  AddToCartModel({
+class CartResponse {
+  CartResponse({
       this.status, 
       this.message, 
       this.numOfCartItems, 
       this.data,});
 
-  AddToCartModel.fromJson(dynamic json) {
+  CartResponse.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     numOfCartItems = json['numOfCartItems'];
-    data = json['data'] != null ? CartData.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
   String? status;
   String? message;
   int? numOfCartItems;
-  CartData? data;
+  Data? data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -29,8 +29,8 @@ class AddToCartModel {
 
 }
 
-class CartData {
-  CartData({
+class Data {
+  Data({
       this.id, 
       this.cartOwner, 
       this.products, 
@@ -39,13 +39,13 @@ class CartData {
       this.v, 
       this.totalCartPrice,});
 
-  CartData.fromJson(dynamic json) {
+  Data.fromJson(dynamic json) {
     id = json['_id'];
     cartOwner = json['cartOwner'];
     if (json['products'] != null) {
       products = [];
       json['products'].forEach((v) {
-        products?.add(AddToCartProducts.fromJson(v));
+        products?.add(Products.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -55,7 +55,7 @@ class CartData {
   }
   String? id;
   String? cartOwner;
-  List<AddToCartProducts>? products;
+  List<Products>? products;
   String? createdAt;
   String? updatedAt;
   int? v;
@@ -77,14 +77,14 @@ class CartData {
 
 }
 
-class AddToCartProducts {
-  AddToCartProducts({
+class Products {
+  Products({
       this.count, 
       this.id, 
       this.product, 
       this.price,});
 
-  AddToCartProducts.fromJson(dynamic json) {
+  Products.fromJson(dynamic json) {
     count = json['count'];
     id = json['_id'];
     product = json['product'];

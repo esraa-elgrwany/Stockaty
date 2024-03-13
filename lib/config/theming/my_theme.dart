@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/utils/app_colors.dart';
+import '../../core/utils/styles.dart';
 
 class MyThemeData{
-
   static ThemeData lightTheme=ThemeData(
     colorScheme: ColorScheme(
         brightness: Brightness.light,
@@ -16,27 +16,32 @@ class MyThemeData{
         surface:primaryColor,
         onSurface:Colors.grey),
 
-    scaffoldBackgroundColor:Colors.white,
-    appBarTheme: AppBarTheme(
-        color: primaryColor,
-        iconTheme: IconThemeData(
-            color: Colors.white
-        )
-    ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        type: BottomNavigationBarType.shifting,
-        backgroundColor: primaryColor,
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.white,),
 
+     scaffoldBackgroundColor:Colors.white,
+  appBarTheme: AppBarTheme(
+  centerTitle: true,
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  iconTheme: IconThemeData(
+  color: primaryColor,
+  ),
+  ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: primaryColor,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white
+
+    ),
     textTheme: TextTheme(
       bodySmall: GoogleFonts.poppins(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w600,
+        fontSize: 16.sp,
         color:Colors.black,
       ),
       bodyMedium: GoogleFonts.poppins(
-        fontSize: 18.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
         color:primaryColor,
       ),
@@ -47,6 +52,7 @@ class MyThemeData{
       ),
     ),
   );
+
   static ThemeData darkTheme=ThemeData(
     colorScheme: ColorScheme(
         brightness: Brightness.dark,
@@ -66,12 +72,11 @@ class MyThemeData{
     ),
     textTheme: TextTheme(
       bodySmall: GoogleFonts.poppins(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w400,
+        fontSize: 16.sp,
         color:Colors.white,
       ),
       bodyMedium: GoogleFonts.poppins(
-        fontSize: 18.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w700,
         color:primaryColor,
       ),
@@ -81,11 +86,13 @@ class MyThemeData{
         color:Colors.black,
       ),
     ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        type: BottomNavigationBarType.shifting,
-        backgroundColor: darkPrimary,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.white,
-      )
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      selectedItemColor: primaryColor,
+      unselectedItemColor: Colors.black,
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+    ),
   );
 }

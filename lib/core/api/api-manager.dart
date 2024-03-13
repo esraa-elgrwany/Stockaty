@@ -10,7 +10,15 @@ class ApiManager {
     return dio.get(Constants.baseUrl + endPoint, queryParameters: data);
   }
 
-  postData(String endPoint, Map<String, dynamic> body) {
-    return dio.post(Constants.baseUrl + endPoint, data: body);
+  postData(String endPoint,{Map<String,dynamic>?body,String?token}) {
+    return dio.post(Constants.baseUrl + endPoint,
+        data: body,
+        options: Options(
+      headers: {
+        "token":token
+      }
+    ));
   }
+
+
 }

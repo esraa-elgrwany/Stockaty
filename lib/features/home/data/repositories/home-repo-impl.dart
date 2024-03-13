@@ -8,6 +8,8 @@ import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
 import 'package:my_shopping_app/features/home/domain/repositories/Home-repo.dart';
 
+import '../../../../core/cache/shared_preferences.dart';
+
 class HomeRepoImpl implements HomeRepo{
   HomeRemoteDs homeRemoteDsImpl;
   HomeRepoImpl(this.homeRemoteDsImpl);
@@ -24,7 +26,8 @@ class HomeRepoImpl implements HomeRepo{
 
   @override
   Future<Either<Failures, AddToCartModel>> addToCart(String id) {
-    return homeRemoteDsImpl.addToCart(id);
+    String? token=CacheData.getData(key: "token");
+    return homeRemoteDsImpl.addToCart(id,token??"");
   }
 
   @override

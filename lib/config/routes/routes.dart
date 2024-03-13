@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_shopping_app/features/SignUp/presentation/pages/signup_screen.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
+import 'package:my_shopping_app/features/home/presentation/Tabs/Fav_Tab.dart';
+
 import 'package:my_shopping_app/features/home/presentation/pages/home_screen.dart';
 
 import 'package:my_shopping_app/features/login/presentation/pages/login_screen.dart';
 
 import '../../features/ProductDetails/presentation/pages/product_details.dart';
+import '../../features/home/presentation/pages/Cart_screen.dart';
 
 
 class RoutesName {
@@ -13,6 +16,7 @@ class RoutesName {
   static const String signup = "signup";
   static const String home = "home";
   static const String productDetails = "productDetails";
+  static const String cart = "cartScreen";
 }
 
 class AppRouter {
@@ -35,6 +39,10 @@ class AppRouter {
         settings.arguments as ProductData;
         return MaterialPageRoute(
           builder: (context) => ProductDetails(productData),
+        );
+      case RoutesName.cart:
+        return MaterialPageRoute(
+          builder: (context) => CartScreen(),
         );
         default:
           return MaterialPageRoute(

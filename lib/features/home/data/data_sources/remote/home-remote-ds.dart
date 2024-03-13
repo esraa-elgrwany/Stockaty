@@ -9,5 +9,5 @@ abstract class HomeRemoteDs{
   Future<Either<Failures,CategoryAndBrandModel>> getCategory();
   Future<Either<Failures,CategoryAndBrandModel>> getBrand();
   Future<Either<Failures,ProductsModel>> getProducts();
-  Future<Either<Failures,AddToCartModel>> addToCart(String id);
+  Future<Either<Failures,AddToCartModel>> addToCart(String id,String token);
 }

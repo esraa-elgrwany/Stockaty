@@ -2,12 +2,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_shopping_app/core/utils/app_colors.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
-class ProductDetails extends StatelessWidget {
+import '../../../../config/routes/routes.dart';
+
+class ProductDetails extends StatefulWidget{
   ProductData item;
   ProductDetails(this.item);
 
+  @override
+  State<ProductDetails> createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
+
+  bool fav=false;
   List<Color> clrs = [
     Color(0xFF2F2929),
     Color(0xFFBC3018),
@@ -15,14 +26,14 @@ class ProductDetails extends StatelessWidget {
     Color(0xFF02B935),
     Color(0xFFFF645A)
   ];
+
   List<String> size = ["38", "39", "40", "41", "42"];
 
   @override
   Widget build(BuildContext context) {
-   // var item=ModalRoute.of(context)?.
-    //settings.arguments as ProductData;
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80.h,
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
@@ -30,18 +41,47 @@ class ProductDetails extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back, color: Color(0xFF06004F)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+              child: CircleAvatar(backgroundColor:Colors.grey.withOpacity(.1),
+
+                  child: Icon(Icons.arrow_back,color:Theme.of(context).colorScheme.secondary)),
+            ),
           ),
           actions: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.search, color: Color(0xFF06004F))),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.shopping_cart, color: Color(0xFF06004F))),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: () {
+                    fav=!fav;
+                    setState(() {
+                    });
+                  },
+                  child: Container(
+                      child: Center(
+                          child:fav? Icon(Icons.favorite,
+                              color:Theme.of(context).colorScheme.secondary)
+                              :Icon(Icons.favorite_border_outlined,
+                              color:Theme.of(context).colorScheme.secondary)
+                                  ),
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(.1),
+                          borderRadius: BorderRadius.circular(20)),
+                      width: 40),
+                ),
+              ),
+            )
           ],
-          title: Text("Products Details",
-              style: TextStyle(fontSize: 20, color: Color(0xFF06004F)))),
+          title: Text("Product Details",
+             style: Theme.of(context)
+        .textTheme
+        .bodyLarge!.copyWith(color: primaryColor,
+             fontWeight: FontWeight.w100)
+    ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -52,47 +92,26 @@ class ProductDetails extends StatelessWidget {
                   children: [
                     Center(
                       child: ImageSlideshow(
-                          indicatorColor: Colors.redAccent,
+                          indicatorColor:Theme.of(context).colorScheme.secondary,
                           indicatorBackgroundColor: Colors.white,
                           height: 300,
-                          autoPlayInterval: 30000,
+                          autoPlayInterval: 300000,
                           indicatorRadius: 4,
                           isLoop: true,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(item.images?[0]??""),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(item.images?[1]??""),
-                            ),
-                          ]),
+                             ClipRRect(
+                                  borderRadius: BorderRadiusDirectional.circular(35),
+                                  child: Image.network(widget.item.images?[0]??"",fit: BoxFit.cover,)),
+                             ClipRRect(
+                                borderRadius: BorderRadiusDirectional.circular(35),
+                                  child: Image.network(widget.item.images?[1]??"",fit: BoxFit.cover,)),
+                          ]
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                              child: Center(
-                                  child: Icon(Icons.favorite_outline,
-                                      color: Color(0xFF06004F))),
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              width: 40),
-                        ),
-                      ),
-                    )
+                    ),
                   ],
                 ),
-                height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: Color(0xFFD4ECF7),
                     borderRadius: BorderRadius.circular(35)),
               ),
               SizedBox(height: 10),
@@ -104,92 +123,53 @@ class ProductDetails extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(item.title??"",
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF06004F))),
-                        Text(item.price.toString(),
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF06004F))),
+                        Expanded(
+                          child: Text(widget.item.title??"",
+                              maxLines:2,
+                              overflow: TextOverflow.ellipsis,
+                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  color: Theme.of(context).colorScheme.onSecondary,)
+
+                                )),
+                        SizedBox(width: 20.w,),
+                       Text("EGP",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                         color: Theme.of(context).colorScheme.secondary )),
+                       SizedBox(width: 6.w,),
+                       Text("${widget.item.price.toString()}",
+                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                           color: Theme.of(context).colorScheme.secondary,),
+                        ),
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 8.h,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              "${item.sold} sold",
-                              style: TextStyle(color: Color(0xFF06004F)),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Colors.blue.withOpacity(0.5))),
-                        ),
-                        Container(
-                            child: Row(
-                              children: [
-                                Icon(Icons.star, color: Colors.amberAccent),
-                                SizedBox(width: 5),
-                                Text("${item.ratingsAverage}"),
-                              ],
-                            )),
-                        Container(
-                          width: 100,
-                          height: 40,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(
-                                CupertinoIcons.minus_circle,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                "1",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Icon(
-                                Icons.add_circle_outline,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color(0xFF06004F),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Colors.blue.withOpacity(0.5))),
-                        ),
+                        Spacer(),
+                        Icon(Icons.star, color: Colors.amberAccent,size: 30,),
+                        SizedBox(width: 5),
+                        Text("${widget.item.ratingsAverage}",
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                  color: Theme.of(context).colorScheme.onSecondary,)),
+
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height:8.h),
                     Text("Description",
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF06004F))),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: primaryColor
+                        )),
                     SizedBox(height: 5),
                     Text(
-                      "${item.description}",
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                      "${widget.item.description}",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,),
                     ),
                     SizedBox(height: 5),
                     Text("Size",
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF06004F))),
+                        style:Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: primaryColor)),
                     SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -211,15 +191,13 @@ class ProductDetails extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: index == 2
-                                        ? Color(0xFF06004F)
+                                        ?primaryColor
                                         : Colors.white),
                               );
                             })),
                     Text("Color",
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF06004F))),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: primaryColor)),
                     SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -249,7 +227,6 @@ class ProductDetails extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: 70,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
               onTap: () {},
@@ -260,35 +237,31 @@ class ProductDetails extends StatelessWidget {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20))),
-                height: 60,
+                height: 60.h,
                 decoration: BoxDecoration(
-                    color: Color(0xFF06004F),
-                    borderRadius: BorderRadius.circular(30)),
-                width: MediaQuery.of(context).size.width / 2,
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(24)),
+                width: MediaQuery.of(context).size.width *.7,
               ),
             ),
+            Spacer(),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context,RoutesName.cart);
+              },
               child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Total Price",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black45)),
-                    Text("${item.price}",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF06004F))),
-                  ],
-                ),
-                height: 60,
+               child: ImageIcon(
+                 AssetImage("assets/images/cart.png"),
+                 size: 40,
+                 color:primaryColor,
+               ),
+                height: 60.h,
+                width: 50.w,
                 decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                width: MediaQuery.of(context).size.width / 3,
+                BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: Colors.grey.withOpacity(.1),
+                ),
               ),
             )
           ],
