@@ -144,10 +144,14 @@ class HomeTab extends StatelessWidget {
             SizedBox(
               height: 8.h,
             ),
-            Text("Products",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge),
+            Row(
+              children: [
+                Text("Products",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge),
+              ],
+            ),
             SizedBox(
               height: 4.h,
             ),
