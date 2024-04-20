@@ -87,19 +87,19 @@ class HomeTab extends StatelessWidget {
                     ClipRRect(
                         borderRadius: BorderRadiusDirectional.circular(24),
                         child: Image.asset(
-                          "assets/images/slide1.png",
+                          "assets/images/banner.png",
                           fit: BoxFit.cover,
                         )),
                     ClipRRect(
                         borderRadius: BorderRadiusDirectional.circular(24),
                         child: Image.asset(
-                          "assets/images/slide1.png",
+                          "assets/images/banner.png",
                           fit: BoxFit.cover,
                         )),
                     ClipRRect(
                         borderRadius: BorderRadiusDirectional.circular(24),
                         child: Image.asset(
-                          "assets/images/slide1.png",
+                          "assets/images/banner.png",
                           fit: BoxFit.cover,
                         ))
                   ]),
