@@ -16,39 +16,32 @@ class MyThemeData{
         surface:primaryColor,
         onSurface:Colors.grey),
 
-
-     scaffoldBackgroundColor:Colors.white,
   appBarTheme: AppBarTheme(
-  centerTitle: true,
+  centerTitle: false,
   backgroundColor: Colors.transparent,
   elevation: 0,
-  iconTheme: IconThemeData(
-  color: primaryColor,
-  ),
   ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: primaryColor,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white
+      selectedItemColor: primaryColor,
+        unselectedItemColor: Color(0xFF8B96A5),
 
     ),
     textTheme: TextTheme(
       bodySmall: GoogleFonts.poppins(
-        fontSize: 16.sp,
-        color:Colors.black,
+        fontSize: 14.sp,
+        color:greyColor,
       ),
       bodyMedium: GoogleFonts.poppins(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w600,
-        color:primaryColor,
+        fontSize: 18.sp,
+        color:greyColor,
       ),
       bodyLarge: GoogleFonts.poppins(
-        fontSize: 22.sp,
-        fontWeight: FontWeight.bold,
-        color:Colors.white,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w500,
+        color:ThirdPrimary,
       ),
     ),
   );
@@ -56,41 +49,37 @@ class MyThemeData{
   static ThemeData darkTheme=ThemeData(
     colorScheme: ColorScheme(
         brightness: Brightness.dark,
-        primary:primaryColor, onPrimary: Colors.white, secondary:darkPrimary,
+        primary:primaryColor, onPrimary: Colors.white, secondary:secondPrimary,
         onSecondary:Colors.white, error: Colors.red, onError: Colors.red,
         background:darkBg,
-        onBackground:darkgrey,
-        surface:darkgrey,
+        onBackground:darkGrey,
+        surface:darkGrey,
         onSurface:Colors.white),
 
     scaffoldBackgroundColor: darkBg,
     appBarTheme: AppBarTheme(
-        color: primaryColor,
-        iconTheme: IconThemeData(
-            color: Colors.white
-        )
+       centerTitle: false,
     ),
     textTheme: TextTheme(
       bodySmall: GoogleFonts.poppins(
-        fontSize: 16.sp,
-        color:Colors.white,
+        fontSize: 14.sp,
+        color:secondPrimary,
       ),
       bodyMedium: GoogleFonts.poppins(
-        fontSize: 20.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w700,
-        color:primaryColor,
+        color:greyColor,
       ),
       bodyLarge: GoogleFonts.poppins(
-        fontSize: 22.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.bold,
-        color:Colors.black,
+        color:ThirdPrimary,
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
       selectedItemColor: primaryColor,
-      unselectedItemColor: Colors.black,
+      unselectedItemColor: Colors.white,
       showUnselectedLabels: false,
       showSelectedLabels: false,
     ),

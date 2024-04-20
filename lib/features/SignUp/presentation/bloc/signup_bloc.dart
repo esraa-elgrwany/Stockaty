@@ -9,7 +9,6 @@ import 'package:my_shopping_app/core/errors/failures.dart';
 import 'package:my_shopping_app/features/SignUp/data/data_sources/remote/signup_remote_ds.dart';
 import 'package:my_shopping_app/features/SignUp/data/data_sources/remote/signup_remote_ds_impl.dart';
 import 'package:my_shopping_app/features/SignUp/data/models/RequestModel.dart';
-import 'package:my_shopping_app/features/SignUp/data/models/UserModel.dart';
 import 'package:my_shopping_app/features/SignUp/data/repositories/Signup_repo_impl.dart';
 import 'package:my_shopping_app/features/SignUp/domain/entities/UserEntity.dart';
 import 'package:my_shopping_app/features/SignUp/domain/repositories/signup_repo.dart';

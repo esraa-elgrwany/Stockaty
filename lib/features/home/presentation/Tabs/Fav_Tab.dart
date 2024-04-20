@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/home_cubit.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../widgets/fav_item.dart';
 
-import '../manager/fav_cubit.dart';
-import '../widgets/list_view.dart';
-
-class FavTab extends StatelessWidget{
+class FavTab extends StatelessWidget {
   const FavTab({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => FavoriteTabCubit(),
-      child: BlocConsumer<FavoriteTabCubit, FavoriteTabState>(
-        listener: (context, state) {},
-        builder: (BuildContext context, state) {
-          final bloc = FavoriteTabCubit.get(context);
-          return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 18.h,),
-                  const ListViewss(),
-                ],
+      create: (context) => HomeCubit()..getFav(),
+      child: BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {
+        },
+        builder: (context, state) {
+          if (state is GetFavSuccessStates) {
+            return Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return FavItem(
+                      state.favResponse.data![index]
+                  );
+                },
+                itemCount: state.favResponse.count,
               ),
-            ),
-          );
+            );
+          }else {
+            return Center(child: CircularProgressIndicator(color: primaryColor,));
+          }
         },
       ),
     );
-
   }
 }

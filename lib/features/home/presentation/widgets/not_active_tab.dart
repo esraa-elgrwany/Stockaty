@@ -13,13 +13,9 @@ class NotActiveTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: ImageIcon(
-        AssetImage(icon),
-        size: 24.sp,
-        color: Colors.white,
-      ),
+    return ImageIcon(
+      AssetImage(icon),
+      size: 24.sp,
     );
   }
 }

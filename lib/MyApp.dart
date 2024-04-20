@@ -8,7 +8,8 @@ import 'config/theming/my_theme.dart';
 
 class MyApp extends StatelessWidget {
   String start;
-   MyApp(this.start);
+
+  MyApp(this.start);
 
   // This widget is the root of your application.
   @override
@@ -24,15 +25,14 @@ class MyApp extends StatelessWidget {
             designSize: const Size(430, 932),
             minTextAdapt: true,
             splitScreenMode: true,
-            builder: (context, child) =>
-                MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  initialRoute: start,
-                  onGenerateRoute: (settings) => AppRouter.onGenerate(settings),
-
-                  theme: MyThemeData.lightTheme,
-                  darkTheme: MyThemeData.darkTheme,
-                ),
+            builder: (context, child) => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: start,
+              onGenerateRoute: (settings) => AppRouter.onGenerate(settings),
+              themeMode:MainCubit.get(context).modeApp ,
+              theme: MyThemeData.lightTheme,
+              darkTheme: MyThemeData.darkTheme,
+            ),
           );
         },
       ),

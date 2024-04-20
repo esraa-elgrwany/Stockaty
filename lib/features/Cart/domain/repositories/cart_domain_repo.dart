@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:my_shopping_app/features/Cart/data/models/CartResponse.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../../data/models/CartResponse.dart';
-
 
 abstract class CartDomainRepo {
   Future<Either<Failures, CartResponse>> getCart();

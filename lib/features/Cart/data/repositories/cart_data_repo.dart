@@ -7,7 +7,7 @@ import '../data_sources/dto.dart';
 import '../models/CartResponse.dart';
 
 class CartDataRepo implements CartDomainRepo {
-  CartDto cartDto;
+  CartRemoteDs cartDto;
 
   CartDataRepo(this.cartDto);
 

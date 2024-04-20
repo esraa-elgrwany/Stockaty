@@ -1,12 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/core/utils/app_colors.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
 import '../../../../config/routes/routes.dart';
+import '../../../home/presentation/manager/Home-manager/home_cubit.dart';
 
 class ProductDetails extends StatefulWidget{
   ProductData item;
@@ -17,7 +19,7 @@ class ProductDetails extends StatefulWidget{
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-
+  String favImage="assets/images/heart.png";
   bool fav=false;
   List<Color> clrs = [
     Color(0xFF2F2929),
@@ -31,6 +33,13 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+  create: (context) => HomeCubit(),
+  child: BlocConsumer<HomeCubit, HomeStates>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.h,
@@ -45,7 +54,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
               child: CircleAvatar(backgroundColor:Colors.grey.withOpacity(.1),
 
-                  child: Icon(Icons.arrow_back,color:Theme.of(context).colorScheme.secondary)),
+                  child: Icon(Icons.arrow_back,color:lightBlueColor)),
             ),
           ),
           actions: [
@@ -58,13 +67,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                     fav=!fav;
                     setState(() {
                     });
+                    if(fav==true){
+                      favImage="assets/images/loved.png";
+                      HomeCubit.get(context).addToFav(widget.item.id ?? "");
+                    }else{
+                      favImage= "assets/images/heart.png";
+                      HomeCubit.get(context).removeFromFav(widget.item.id ?? "");
+                    }
                   },
                   child: Container(
                       child: Center(
-                          child:fav? Icon(Icons.favorite,
-                              color:Theme.of(context).colorScheme.secondary)
-                              :Icon(Icons.favorite_border_outlined,
-                              color:Theme.of(context).colorScheme.secondary)
+                          child: ImageIcon(
+                            AssetImage(favImage),
+                            color: primaryColor,
+                          )
                                   ),
                       height: 40.h,
                       decoration: BoxDecoration(
@@ -78,8 +94,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           title: Text("Product Details",
              style: Theme.of(context)
         .textTheme
-        .bodyLarge!.copyWith(color: primaryColor,
-             fontWeight: FontWeight.w100)
+        .bodyLarge
     ),
       ),
       body: SingleChildScrollView(
@@ -127,17 +142,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Text(widget.item.title??"",
                               maxLines:2,
                               overflow: TextOverflow.ellipsis,
-                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: Theme.of(context).colorScheme.onSecondary,)
+                                style:Theme.of(context).textTheme.bodyLarge
 
                                 )),
                         SizedBox(width: 20.w,),
                        Text("EGP",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                         color: Theme.of(context).colorScheme.secondary )),
-                       SizedBox(width: 6.w,),
+                         color: Color(0xFFFA3434)
+                       )),
+                       SizedBox(width: 4.w,),
                        Text("${widget.item.price.toString()}",
                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                           color: Theme.of(context).colorScheme.secondary,),
+                             color: Color(0xFFFA3434)
+                         ),
                         ),
                       ],
                     ),
@@ -150,26 +166,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                         Icon(Icons.star, color: Colors.amberAccent,size: 30,),
                         SizedBox(width: 5),
                         Text("${widget.item.ratingsAverage}",
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Theme.of(context).colorScheme.onSecondary,)),
+                                    style: Theme.of(context).textTheme.bodyLarge),
 
                       ],
                     ),
                     SizedBox(height:8.h),
                     Text("Description",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: primaryColor
-                        )),
+                        style: Theme.of(context).textTheme.bodyLarge),
                     SizedBox(height: 5),
                     Text(
                       "${widget.item.description}",
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary,),
+                      style: Theme.of(context).textTheme.bodySmall
                     ),
                     SizedBox(height: 5),
                     Text("Size",
-                        style:Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: primaryColor)),
+                        style:Theme.of(context).textTheme.bodyLarge),
                     SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -191,13 +202,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: index == 2
-                                        ?primaryColor
+                                        ?greenColor
                                         : Colors.white),
                               );
                             })),
                     Text("Color",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: primaryColor)),
+                        style: Theme.of(context).textTheme.bodyLarge),
                     SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -225,48 +235,64 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        height: 70,
+        height: 70.h,
         child: Row(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                HomeCubit.get(context)
+                    .addTCart(widget.item.id ?? "");
+              },
               child: Container(
                 child: Center(
                     child: Text("Add To Cart",
                         style: TextStyle(
-                            color: Colors.white,
+                            color:Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 20))),
-                height: 60.h,
+                height: 50.h,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(24)),
-                width: MediaQuery.of(context).size.width *.7,
+                  color: primaryColor,
+                    borderRadius: BorderRadius.circular(14.r)),
+                width: MediaQuery.of(context).size.width *.75,
               ),
             ),
             Spacer(),
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context,RoutesName.cart);
-              },
-              child: Container(
-               child: ImageIcon(
-                 AssetImage("assets/images/cart.png"),
-                 size: 40,
-                 color:primaryColor,
-               ),
-                height: 60.h,
-                width: 50.w,
-                decoration:
-                BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.grey.withOpacity(.1),
+            Container(
+              decoration: BoxDecoration(
+                border:Border.all(
+                  color: Color(0xFFDEE2E7),
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(8)
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutesName.cart);
+                },
+                icon: Badge(
+                  label: Text(
+                    HomeCubit.get(context).numOfItemsInCart.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                  ),
+                  largeSize: 15,
+                  alignment: Alignment.topRight,
+                  child: ImageIcon(
+                    AssetImage("assets/images/cart.png"),
+                    size: 90.sp,
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
+  },
+),
+);
   }
 }

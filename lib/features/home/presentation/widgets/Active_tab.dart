@@ -13,21 +13,18 @@ class ActiveTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top:8),
-      child: Container(
-        height: 40.h,
-        width: 40.w,
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: const OvalBorder(),
-        ),
-        child: Center(
-          child: ImageIcon(
-            AssetImage(icon),
-            size: 24.sp,
-            color: primaryColor,
-          ),
+    return Container(
+      height: 40.h,
+      width: 40.w,
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: const OvalBorder(),
+      ),
+      child: Center(
+        child: ImageIcon(
+          AssetImage(icon),
+          size: 24.sp,
+          color: primaryColor,
         ),
       ),
     );
