@@ -92,7 +92,6 @@ class FavItem extends StatelessWidget {
                             )),
                         SizedBox(width:8),
                         Icon(Icons.star, color: Colors.amberAccent,size:20,),
-
                       ]),
                   Row(
                     children: [
@@ -100,7 +99,7 @@ class FavItem extends StatelessWidget {
                         "${product.price} EGP",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.black87
+                            color: Colors.black
                         ),
                       ),
                     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:location/location.dart';
 import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/home_cubit.dart';
 import '../../../../config/routes/routes.dart';
 import '../widgets/Active_tab.dart';
@@ -16,12 +17,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    canAccessLocation();
     return BlocProvider(
       create: (context) => HomeCubit()
         ..getCategories()
         ..getBrands()
         ..getProducts()
-      ..getNumOfCart(),
+        ..getNumOfCart(),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {
           if (state is HomeGetProductsErrorState) {
@@ -49,16 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               title: Row(
                 children: [
-                  Image.asset("assets/images/logo-symbol.png") ,
-                  SizedBox(width: 6.w,),
-                  Text(
-                    "Stockaty",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!.copyWith(
-                      color: Color(0XFF8CB7F5),
-                    )
+                  Image.asset("assets/images/logo-symbol.png"),
+                  SizedBox(
+                    width: 6.w,
                   ),
+                  Text("Stockaty",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Color(0XFF8CB7F5),
+                          )),
                 ],
               ),
               actions: [
@@ -82,7 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         AssetImage("assets/images/cart.png"),
                         color: Colors.black,
                         size: 100,
-
                       ),
                     ),
                   ),
@@ -141,5 +140,36 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  PermissionStatus permissionStatus = PermissionStatus.denied;
+  Location location = Location();
+  bool serviceEnabled = false;
+  LocationData? locationData;
+
+  Future<bool> isPermissionGranted() async {
+    permissionStatus = await location.hasPermission();
+    if (permissionStatus == PermissionStatus.denied) {
+      permissionStatus = await location.requestPermission();
+    }
+    return permissionStatus == PermissionStatus.granted;
+  }
+
+  Future<bool> isServiceEnabled() async {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+    }
+    return serviceEnabled;
+  }
+
+  canAccessLocation()async{
+    bool permissionGranted= await  isPermissionGranted();
+    if(!permissionGranted)return;
+
+    bool serviceEnabled= await isServiceEnabled();
+    if(!serviceEnabled)return;
+
+    locationData=await location.getLocation();
   }
 }
