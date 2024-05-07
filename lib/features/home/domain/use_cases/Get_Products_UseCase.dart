@@ -8,7 +8,7 @@ class GetProductsUseCase {
   HomeRepo homeRepo;
   GetProductsUseCase(this.homeRepo);
 
-  Future<Either<Failures, ProductsModel>> call() {
-    return homeRepo.getProducts();
+  Future<Either<Failures, ProductsModel>> call({String? search}) {
+    return homeRepo.getProducts(search: search);
   }
 }

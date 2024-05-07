@@ -6,7 +6,8 @@ import 'package:my_shopping_app/core/utils/constants.dart';
 class ApiManager {
   Dio dio = Dio();
 
-  Future<Response> getData(String endPoint, {Map<String, dynamic>? data,String?token}) {
+  Future<Response> getData(String endPoint, {Map<String, dynamic>? data,
+    String?token}) {
     return dio.get(Constants.baseUrl + endPoint, queryParameters: data,
         options:Options(
           headers: {

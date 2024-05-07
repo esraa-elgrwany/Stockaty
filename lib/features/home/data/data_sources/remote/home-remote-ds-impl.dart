@@ -11,12 +11,14 @@ import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 
 import '../../../../../core/utils/constants.dart';
 import '../../models/AddToFavModel.dart';
+import '../../models/RemoveFromFav.dart';
 import 'home-remote-ds.dart';
 
 class HomeRemoteDsImpl implements HomeRemoteDs {
   ApiManager apiManager;
 
   HomeRemoteDsImpl(this.apiManager);
+
   Dio dio = Dio();
   var token = CacheData.getData(key: "token");
 
@@ -46,6 +48,18 @@ class HomeRemoteDsImpl implements HomeRemoteDs {
   }
 
   @override
+  Future<Either<Failures, ProductsModel>> getProducts({String? search}) async {
+    try {
+      Response response = await apiManager
+          .getData(EndPoints.products);
+      ProductsModel productsModel = ProductsModel.fromJson(response.data);
+      return Right(productsModel);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failures, AddToCartModel>> addToCart(
       String id, String token) async {
     try {
@@ -59,6 +73,7 @@ class HomeRemoteDsImpl implements HomeRemoteDs {
     }
   }
 
+//fav
   @override
   Future<Either<Failures, AddToFavModel>> addToFav(
       String id, String token) async {
@@ -73,42 +88,33 @@ class HomeRemoteDsImpl implements HomeRemoteDs {
     }
   }
 
+
+
   @override
-  Future<Either<Failures, ProductsModel>> getProducts() async {
+  Future<Either<Failures,RemoveFromFav>> removeFromFav(String id) async {
     try {
-      Response response = await apiManager.getData(EndPoints.products);
-      ProductsModel productsModel = ProductsModel.fromJson(response.data);
-      return Right(productsModel);
+      var response = await dio.delete(
+          "${Constants.baseUrl}${EndPoints.addFav}/$id",
+          options: Options(headers: {"token": token}));
+
+     RemoveFromFav removeFromFavModel = RemoveFromFav.fromJson(response.data);
+
+      return Right(removeFromFavModel);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failures, AddToFavModel>> removeFromFav(String id) async{
+  Future<Either<Failures, FavResponse>> getFav() async {
     try {
-      var response = await apiManager.deleteData(EndPoints.removeFav,
-          body: {"productId": id}, token: CacheData.getData(key: "token"));
+      Response response = await apiManager.getData(EndPoints.addFav,
+          token: CacheData.getData(key: "token"));
+      FavResponse favResponse = FavResponse.fromJson(response.data);
 
-     AddToFavModel addToFavModel = AddToFavModel.fromJson(response.data);
-
-      return Right(addToFavModel);
+      return Right(favResponse);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
-  }
-
-  @override
-  Future<Either<Failures, FavResponse>> getFav()async {
-      try {
-        Response response = await apiManager.getData(EndPoints.getFav,
-            token:CacheData.getData(key: "token")
-        );
-        FavResponse favResponse = FavResponse.fromJson(response.data);
-
-        return Right(favResponse);
-      } catch (e) {
-        return Left(ServerFailure(e.toString()));
-      }
   }
 }

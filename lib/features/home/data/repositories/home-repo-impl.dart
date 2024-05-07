@@ -11,6 +11,7 @@ import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
 import 'package:my_shopping_app/features/home/domain/repositories/Home-repo.dart';
 
 import '../../../../core/cache/shared_preferences.dart';
+import '../models/RemoveFromFav.dart';
 
 class HomeRepoImpl implements HomeRepo{
   HomeRemoteDs homeRemoteDsImpl;
@@ -33,8 +34,8 @@ class HomeRepoImpl implements HomeRepo{
   }
 
   @override
-  Future<Either<Failures, ProductsModel>> getProducts() {
-   return homeRemoteDsImpl.getProducts();
+  Future<Either<Failures, ProductsModel>> getProducts({String? search}) {
+   return homeRemoteDsImpl.getProducts(search: search);
   }
 
   @override
@@ -44,7 +45,7 @@ class HomeRepoImpl implements HomeRepo{
   }
 
   @override
-  Future<Either<Failures, AddToFavModel>> removeFromFav(String id) {
+  Future<Either<Failures,RemoveFromFav>> removeFromFav(String id) {
     return homeRemoteDsImpl.removeFromFav(id);
   }
 

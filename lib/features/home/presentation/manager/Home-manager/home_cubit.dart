@@ -7,6 +7,7 @@ import 'package:my_shopping_app/features/home/data/models/AddToCartModel.dart';
 import 'package:my_shopping_app/features/home/data/models/AddToFavModel.dart';
 import 'package:my_shopping_app/features/home/data/models/CategoryAndBrandModel.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
+import 'package:my_shopping_app/features/home/data/models/RemoveFromFav.dart';
 import 'package:my_shopping_app/features/home/data/repositories/home-repo-impl.dart';
 import 'package:my_shopping_app/features/home/domain/repositories/Home-repo.dart';
 import 'package:my_shopping_app/features/home/presentation/Tabs/Setting_Tab.dart';
@@ -38,14 +39,19 @@ class HomeCubit extends Cubit<HomeStates> {
   static HomeCubit get(context) => BlocProvider.of(context);
 
   int bottomNavIndex = 0;
-  bool fav = false;
   int numOfItemsInCart=0 ;
   List<Widget> tabs = const [HomeTab(), ProductsTab(), FavTab(), SettingTab()];
   List<Data> categories = [];
   List<Data> brands = [];
   List<ProductData> products = [];
+  TextEditingController searchController=TextEditingController();
+  bool isFavorite = false;
 
-
+  void makeFavorite() {
+    emit(HomeInitial());
+    isFavorite = isFavorite == false ? true : false;
+    emit(SetFavoriteState());
+  }
   void changeBottomNav(int index) {
     emit(HomeInitial());
     bottomNavIndex = index;
@@ -80,7 +86,7 @@ int getNumOfCart(){
   }
 
   void addToFav(String productId) async {
-    emit(AddToFavLoadingState());
+    emit(FavLoadingState());
     ApiManager apiManager = ApiManager();
     HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
     HomeRepo homeRepo = HomeRepoImpl(remoteDs);
@@ -88,32 +94,36 @@ int getNumOfCart(){
     var result = await addToFavUseCase.call(productId);
     result.fold((l) {
       emit(AddToFavErrorState(l));
-
     }, (r) {
-      print("********************");
+      print("////////////////////////");
+      print(r.message) ;
+      print(r.data?.length??0);
       emit(AddToFavSuccessState(r));
     });
   }
 
   void removeFromFav(String productId) async {
-    emit(RemoveFromFavLoadingState());
+    emit(FavLoadingState());
     ApiManager apiManager = ApiManager();
     HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
     HomeRepo homeRepo = HomeRepoImpl(remoteDs);
     RemoveFromFavUseCase removeFromFavUseCase = RemoveFromFavUseCase(homeRepo);
     var result = await removeFromFavUseCase.call(productId);
     result.fold((l) {
+      print(l) ;
       emit(RemoveFromFavErrorState(l));
 
     }, (r) {
       print("********************");
+     print(r.message) ;
+     print(r.data?.length??0);
       emit(RemoveFromFavSuccessState(r));
     });
   }
 
 
   void getFav() async {
-    emit(GetFavLoadingStates("Loading...."));
+    emit(FavLoadingState());
     ApiManager apiManager = ApiManager();
     HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
     HomeRepo homeRepo = HomeRepoImpl(remoteDs);
@@ -127,13 +137,13 @@ int getNumOfCart(){
     });
   }
 
-  getProducts() async {
+  getProducts({String? search}) async {
     emit(HomeLoadingState());
     ApiManager apiManager = ApiManager();
     HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
     HomeRepo homeRepo = HomeRepoImpl(remoteDs);
     GetProductsUseCase productsUseCase = GetProductsUseCase(homeRepo);
-    var result = await productsUseCase.call();
+    var result = await productsUseCase.call(search: search);
     result.fold((l) {
       emit(HomeGetProductsErrorState(l));
     }, (r) {

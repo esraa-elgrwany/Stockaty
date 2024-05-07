@@ -68,7 +68,7 @@ class AddToCartErrorState extends HomeStates {
 
 
 //Fav
-class AddToFavLoadingState extends HomeStates {}
+class FavLoadingState extends HomeStates {}
 
 class AddToFavSuccessState extends HomeStates {
   AddToFavModel favModel;
@@ -82,10 +82,9 @@ class AddToFavErrorState extends HomeStates {
   AddToFavErrorState(this.failures);
 }
 
-class RemoveFromFavLoadingState extends HomeStates {}
 
 class RemoveFromFavSuccessState extends HomeStates {
-  AddToFavModel favModel;
+  RemoveFromFav favModel;
 
   RemoveFromFavSuccessState(this.favModel);
 }
@@ -96,10 +95,6 @@ class RemoveFromFavErrorState extends HomeStates {
   RemoveFromFavErrorState(this.failures);
 }
 
-class GetFavLoadingStates extends HomeStates {
-  String? loadingMsg;
-  GetFavLoadingStates(this.loadingMsg);
-}
 
 class GetFavSuccessStates extends HomeStates {
   FavResponse favResponse;
@@ -111,3 +106,4 @@ class GetFavErrorStates extends HomeStates {
 
   GetFavErrorStates(this.failures);
 }
+class SetFavoriteState extends HomeStates {}

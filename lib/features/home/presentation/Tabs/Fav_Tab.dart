@@ -26,7 +26,8 @@ class FavTab extends StatelessWidget {
                 itemCount: state.favResponse.count,
               ),
             );
-          }else {
+          }
+          else {
             return Center(child: CircularProgressIndicator(color: primaryColor,));
           }
         },

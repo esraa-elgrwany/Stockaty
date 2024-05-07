@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/home_cubit.dart';
+import 'package:my_shopping_app/features/home/presentation/pages/Search_screen.dart';
 import 'package:my_shopping_app/features/home/presentation/widgets/Product_item.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -26,6 +27,7 @@ class ProductsTab extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                 controller: HomeCubit.get(context).searchController,
                                 decoration: InputDecoration(
                                   fillColor: Color(0xFFDEE2E7).withOpacity(.3),
                                   filled: true,
@@ -33,8 +35,14 @@ class ProductsTab extends StatelessWidget {
                                   hintStyle: Theme.of(context)
                                       .textTheme
                                       .bodyMedium,
-                                  prefixIcon: Icon(Icons.search_sharp,
-                                    color: greyColor,
+                                  prefixIcon: IconButton(
+                                    onPressed: () {
+                                      HomeCubit.get(context).
+                                      getProducts(search:HomeCubit.get(context).searchController.text);
+                                    },
+                                    icon: Icon(Icons.search_sharp,
+                                      color: greyColor,
+                                    ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -79,7 +87,7 @@ class ProductsTab extends StatelessWidget {
                                 HomeCubit.get(context).products[index]);
                           },
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

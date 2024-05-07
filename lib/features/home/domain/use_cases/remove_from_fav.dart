@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
+import 'package:my_shopping_app/features/home/data/models/RemoveFromFav.dart';
 
 import '../../../../core/errors/failures.dart';
-import '../../data/models/AddToFavModel.dart';
 import '../repositories/Home-repo.dart';
 
 class RemoveFromFavUseCase {
   HomeRepo homeRepo;
   RemoveFromFavUseCase(this.homeRepo);
 
-  Future<Either<Failures, AddToFavModel>> call(String id) {
-    return homeRepo.addToFav( id);
+  Future<Either<Failures,RemoveFromFav>> call(String id) {
+    return homeRepo.removeFromFav( id);
   }
 }
