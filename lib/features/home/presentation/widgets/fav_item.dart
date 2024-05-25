@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/fav_cubit.dart';
 import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/home_cubit.dart';
 
 import '../../../../core/utils/app_colors.dart';
@@ -61,7 +62,7 @@ class FavItem extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          HomeCubit.get(context)
+                          FavCubit.get(context)
                               .removeFromFav(product.id ?? "");
                         },
                         icon:  ImageIcon(

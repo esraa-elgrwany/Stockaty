@@ -7,12 +7,14 @@ import 'package:my_shopping_app/features/home/presentation/Tabs/Fav_Tab.dart';
 import 'package:my_shopping_app/features/home/presentation/pages/home_screen.dart';
 
 import 'package:my_shopping_app/features/login/presentation/pages/login_screen.dart';
+import 'package:my_shopping_app/features/welcome_page/wlcome_page.dart';
 
 import '../../features/ProductDetails/presentation/pages/product_details.dart';
 
 
 class RoutesName {
-  static const String login = "/";
+  static const String welcome = "/";
+  static const String login = "login";
   static const String signup = "signup";
   static const String home = "home";
   static const String productDetails = "productDetails";
@@ -22,6 +24,10 @@ class RoutesName {
 class AppRouter {
   static Route onGenerate(RouteSettings settings) {
     switch (settings.name) {
+      case RoutesName.welcome:
+        return MaterialPageRoute(
+          builder: (context) => WelcomeScreen(),
+        );
       case RoutesName.login:
         return MaterialPageRoute(
           builder: (context) => LoginScreen(),

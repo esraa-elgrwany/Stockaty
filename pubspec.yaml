@@ -52,7 +52,7 @@ dependencies:
   flutter_image_slideshow: ^0.1.6
   flutter_svg: ^2.0.9
   shared_preferences: ^2.2.2
-  location: ^5.0.0
+
 
 dev_dependencies:
   flutter_test:

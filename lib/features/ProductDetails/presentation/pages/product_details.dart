@@ -6,8 +6,8 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/core/utils/app_colors.dart';
 import 'package:my_shopping_app/features/home/data/models/ProductsModel.dart';
-
 import '../../../../config/routes/routes.dart';
+import '../../../home/presentation/manager/Home-manager/fav_cubit.dart';
 import '../../../home/presentation/manager/Home-manager/home_cubit.dart';
 
 class ProductDetails extends StatefulWidget{
@@ -69,10 +69,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                     });
                     if(fav==true){
                       favImage="assets/images/loved.png";
-                      HomeCubit.get(context).addToFav(widget.item.id ?? "");
+                      FavCubit.get(context).addToFav(widget.item.id ?? "");
                     }else{
                       favImage= "assets/images/heart.png";
-                      HomeCubit.get(context).removeFromFav(widget.item.id ?? "");
+                      FavCubit.get(context).removeFromFav(widget.item.id ?? "");
                     }
                   },
                   child: Container(

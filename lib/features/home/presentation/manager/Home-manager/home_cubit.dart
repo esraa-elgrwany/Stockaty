@@ -45,13 +45,9 @@ class HomeCubit extends Cubit<HomeStates> {
   List<Data> brands = [];
   List<ProductData> products = [];
   TextEditingController searchController=TextEditingController();
-  bool isFavorite = false;
 
-  void makeFavorite() {
-    emit(HomeInitial());
-    isFavorite = isFavorite == false ? true : false;
-    emit(SetFavoriteState());
-  }
+
+
   void changeBottomNav(int index) {
     emit(HomeInitial());
     bottomNavIndex = index;
@@ -85,57 +81,7 @@ int getNumOfCart(){
     });
   }
 
-  void addToFav(String productId) async {
-    emit(FavLoadingState());
-    ApiManager apiManager = ApiManager();
-    HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
-    HomeRepo homeRepo = HomeRepoImpl(remoteDs);
-    AddToFavUseCase addToFavUseCase = AddToFavUseCase(homeRepo);
-    var result = await addToFavUseCase.call(productId);
-    result.fold((l) {
-      emit(AddToFavErrorState(l));
-    }, (r) {
-      print("////////////////////////");
-      print(r.message) ;
-      print(r.data?.length??0);
-      emit(AddToFavSuccessState(r));
-    });
-  }
 
-  void removeFromFav(String productId) async {
-    emit(FavLoadingState());
-    ApiManager apiManager = ApiManager();
-    HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
-    HomeRepo homeRepo = HomeRepoImpl(remoteDs);
-    RemoveFromFavUseCase removeFromFavUseCase = RemoveFromFavUseCase(homeRepo);
-    var result = await removeFromFavUseCase.call(productId);
-    result.fold((l) {
-      print(l) ;
-      emit(RemoveFromFavErrorState(l));
-
-    }, (r) {
-      print("********************");
-     print(r.message) ;
-     print(r.data?.length??0);
-      emit(RemoveFromFavSuccessState(r));
-    });
-  }
-
-
-  void getFav() async {
-    emit(FavLoadingState());
-    ApiManager apiManager = ApiManager();
-    HomeRemoteDs remoteDs = HomeRemoteDsImpl(apiManager);
-    HomeRepo homeRepo = HomeRepoImpl(remoteDs);
-    GetFavUseCase getFavUseCase = GetFavUseCase(homeRepo);
-    var result = await getFavUseCase.call();
-    result.fold((l) {
-      print(l.errormsg);
-      emit(GetFavErrorStates(l));
-    }, (r) {
-      emit(GetFavSuccessStates(r));
-    });
-  }
 
   getProducts({String? search}) async {
     emit(HomeLoadingState());

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/config/routes/routes.dart';
-import 'package:my_shopping_app/features/main_cubit/main_cubit.dart';
+import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/fav_cubit.dart';
+
 
 import 'config/theming/my_theme.dart';
 
@@ -15,8 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MainCubit(),
-      child: BlocConsumer<MainCubit, MainState>(
+      create: (context) => FavCubit(),
+      child: BlocConsumer<FavCubit,FavState>(
         listener: (context, state) {
           // TODO: implement listener
         },
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               initialRoute: start,
               onGenerateRoute: (settings) => AppRouter.onGenerate(settings),
-              themeMode:MainCubit.get(context).modeApp ,
               theme: MyThemeData.lightTheme,
               darkTheme: MyThemeData.darkTheme,
             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:location/location.dart';
 import 'package:my_shopping_app/features/home/presentation/manager/Home-manager/home_cubit.dart';
 import '../../../../config/routes/routes.dart';
 import '../widgets/Active_tab.dart';
@@ -17,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    canAccessLocation();
     return BlocProvider(
       create: (context) => HomeCubit()
         ..getCategories()
@@ -49,46 +47,40 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Row(
+              toolbarHeight: 90.h,
+              title:
+              Column(
                 children: [
-                  Image.asset("assets/images/logo-symbol.png"),
-                  SizedBox(
-                    width: 6.w,
-                  ),
-                  Text("Stockaty",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Color(0XFF8CB7F5),
-                          )),
-                ],
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RoutesName.cart);
-                    },
-                    icon: Badge(
-                      label: Text(
-                        HomeCubit.get(context).numOfItemsInCart.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
+                  Row(
+                    children: [
+                      Image.asset("assets/images/Group 15106.png",
+                          width: 100.w, height: 150.h),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RoutesName.cart);
+                        },
+                        icon: Badge(
+                          label: Text(
+                            HomeCubit.get(context).numOfItemsInCart.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                            ),
+                          ),
+                          largeSize: 15,
+                          alignment: Alignment.topRight,
+                          child: ImageIcon(
+                            AssetImage("assets/images/cart.png"),
+                            color: Colors.black,
+                            size: 100,
+                          ),
                         ),
                       ),
-                      largeSize: 15,
-                      alignment: Alignment.topRight,
-                      child: ImageIcon(
-                        AssetImage("assets/images/cart.png"),
-                        color: Colors.black,
-                        size: 100,
-                      ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
-              backgroundColor: Colors.white.withOpacity(0.2),
-              elevation: 0,
+                ],
+              ),
             ),
             bottomNavigationBar: ClipRRect(
               borderRadius: BorderRadius.only(
@@ -128,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   HomeCubit.get(context)
@@ -140,36 +132,5 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  PermissionStatus permissionStatus = PermissionStatus.denied;
-  Location location = Location();
-  bool serviceEnabled = false;
-  LocationData? locationData;
-
-  Future<bool> isPermissionGranted() async {
-    permissionStatus = await location.hasPermission();
-    if (permissionStatus == PermissionStatus.denied) {
-      permissionStatus = await location.requestPermission();
-    }
-    return permissionStatus == PermissionStatus.granted;
-  }
-
-  Future<bool> isServiceEnabled() async {
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-    }
-    return serviceEnabled;
-  }
-
-  canAccessLocation()async{
-    bool permissionGranted= await  isPermissionGranted();
-    if(!permissionGranted)return;
-
-    bool serviceEnabled= await isServiceEnabled();
-    if(!serviceEnabled)return;
-
-    locationData=await location.getLocation();
   }
 }

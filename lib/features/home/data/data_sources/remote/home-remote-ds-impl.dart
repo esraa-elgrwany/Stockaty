@@ -111,7 +111,8 @@ class HomeRemoteDsImpl implements HomeRemoteDs {
       Response response = await apiManager.getData(EndPoints.addFav,
           token: CacheData.getData(key: "token"));
       FavResponse favResponse = FavResponse.fromJson(response.data);
-
+      print("fffffffffffffffffffffffffffffff");
+      print(response.statusCode);
       return Right(favResponse);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

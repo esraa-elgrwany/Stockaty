@@ -62,195 +62,183 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, state) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: primaryColor,
-            body: Column(
-              children: [
-                Container(
-                  height: 200.h,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16),
-                  child:
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text( "My Cart",style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color:Colors.white,fontSize: 28.sp),
+            backgroundColor: Colors.white,
+            body: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key:LoginBloc.get(context).formKey ,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 10.h,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset("assets/images/Group 15106.png",
+                            width: 100.w, height: 150.h),
+                      ],
+                    ),
+                    Text("Welcome !",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.black,
+                          fontSize: 40.sp,
+                        )),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Text("sign in to continue",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                          fontSize: 22.sp,
+                            fontWeight: FontWeight.w400,
+                            color:Color(0Xff000000).withOpacity(0.3))),
+                    SizedBox(
+                      height: 60.h,
+                    ),
+                    Container(
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller:LoginBloc.get(context).emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "please enter your Email";
+                          }
+                          final bool emailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[com]+")
+                              .hasMatch(value);
+                          if (!emailValid) {
+                            return "please enter valid email";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          label: Text("Email",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                  color: Colors.black,
+                              )),
+                          prefixIcon: Icon(Icons.email_rounded,color: Theme.of(context).colorScheme.secondary,),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color:Color(0XFFD9D9D9),
+                                  width: 2.w
+                              ),
+                              borderRadius: BorderRadius.circular(12.r)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color:Color(0XFFD9D9D9),
+                                width: 2.w
+                              ),
+                              borderRadius: BorderRadius.circular(12.r)),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.r),
-                            topRight: Radius.circular(20.r))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(30),
-                      child: Form(
-                        key:LoginBloc.get(context).formKey ,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    TextFormField(
+                      controller: LoginBloc.get(context).passwordController,
+                      obscureText:LoginBloc.get(context).secure?true:false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "please enter your password";
+                        }
+                        RegExp regex =
+                        RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+                        if (!regex.hasMatch(value)) {
+                          return 'Enter valid password';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        label: Text("Password",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                              color: Colors.black,
+
+                            )),
+                        prefixIcon: Icon(Icons.lock,color: Theme.of(context).colorScheme.secondary,),
+                        suffixIcon:IconButton(onPressed:() {
+                          LoginBloc.get(context).secure=!LoginBloc.get(context).secure;
+                          setState(() {
+                          });
+                        }, icon:Icon(LoginBloc.get(context).secure?Icons.visibility_off:Icons.visibility,color: Theme.of(context).colorScheme.secondary),),
+
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.w,
+                              color:Color(0XFFD9D9D9),
+                            ),
+                            borderRadius: BorderRadius.circular(12.r)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2.w,
+                              color:Color(0XFFD9D9D9),
+                            ),
+                            borderRadius: BorderRadius.circular(12.r)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 60.h,
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            LoginBloc.get(context).add(LoginBtnClickEvent());
+                          },
+                          style: ButtonStyle(
+                              padding: MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    horizontal: 145, vertical: 14),
+                              ),
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadiusDirectional.circular(12.r),
+                                  ))),
+                          child: Text("Sign in",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(color: Colors.white))),
+                    ),
+
+                    SizedBox(height: 60.h),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(context, RoutesName.signup,
+                                (route) => false);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           children: [
-                            Center(
-                              child: Text("Sign in",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: Theme.of(context).colorScheme.onPrimary)),
-                            ),
-                            SizedBox(
-                              height: 60.h,
-                            ),
-                            TextFormField(
-
-                              keyboardType: TextInputType.emailAddress,
-                              controller:LoginBloc.get(context).emailController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "please enter your Email";
-                                }
-                                final bool emailValid = RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[com]+")
-                                    .hasMatch(value);
-                                if (!emailValid) {
-                                  return "please enter valid email";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                label: Text("Email",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                        color: Theme.of(context).colorScheme.onPrimary)),
-
-                                prefixIcon: Icon(Icons.email_rounded,color: Theme.of(context).colorScheme.secondary,),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 2,
-                                      color: primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50.h,
-                            ),
-                            TextFormField(
-                              controller: LoginBloc.get(context).passwordController,
-                              obscureText:LoginBloc.get(context).secure?true:false,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "please enter your password";
-                                }
-                                RegExp regex =
-                                RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-                                if (!regex.hasMatch(value)) {
-                                  return 'Enter valid password';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                label: Text("Password",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                        color: Theme.of(context).colorScheme.onPrimary
-                                    )),
-                                prefixIcon: Icon(Icons.lock,color: Theme.of(context).colorScheme.secondary,),
-                                suffixIcon:IconButton(onPressed:() {
-                                  LoginBloc.get(context).secure=!LoginBloc.get(context).secure;
-                                  setState(() {
-                                  });
-                                }, icon:Icon(LoginBloc.get(context).secure?Icons.visibility_off:Icons.visibility,color: Theme.of(context).colorScheme.secondary),),
-
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 2.w,
-                                      color: primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      width: 2.w,
-                                      color: primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 60.h,
-                            ),
-                            Center(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    LoginBloc.get(context).add(LoginBtnClickEvent());
-                                  },
-                                  style: ButtonStyle(
-                                      padding: MaterialStatePropertyAll(
-                                        EdgeInsets.symmetric(
-                                            horizontal: 70, vertical: 8),
-                                      ),
-                                      shape: MaterialStatePropertyAll(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadiusDirectional.circular(12.r),
-                                          ))),
-                                  child: Text("Sign in",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(color: Colors.white))),
-                            ),
-
-                            SizedBox(height: 60.h),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamedAndRemoveUntil(context, RoutesName.signup,
-                                        (route) => false);
-                              },
-                              child: Column(
-                                children: [
-                                  Text("Don't have an account ? ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.w200)),
-                                  SizedBox(height: 10.h,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Sign Up",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(color: Theme.of(context).colorScheme.onPrimary)),
-                                      SizedBox(width: 8.w,),
-                                      Icon(Icons.arrow_circle_right_outlined,color: Theme.of(context).colorScheme.secondary,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            Text("Don't have an account ? ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color:Colors.black87,fontWeight: FontWeight.bold)),
+                            Text("Sign Up",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
                     ),
-                  ),),
-              ],
+                  ],
+                ),
+              ),
             ),
           );
            /* Scaffold(
