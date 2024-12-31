@@ -20,5 +20,4 @@ class RemoveFromFav {
     map['data'] = data;
     return map;
   }
-
 }

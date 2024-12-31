@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../core/utils/app_colors.dart';
-import '../../core/utils/styles.dart';
+
 
 class MyThemeData{
   static ThemeData lightTheme=ThemeData(
@@ -46,42 +45,4 @@ class MyThemeData{
     ),
   );
 
-  static ThemeData darkTheme=ThemeData(
-    colorScheme: ColorScheme(
-        brightness: Brightness.dark,
-        primary:primaryColor, onPrimary: Colors.white, secondary:secondPrimary,
-        onSecondary:Colors.white, error: Colors.red, onError: Colors.red,
-        background:darkBg,
-        onBackground:darkGrey,
-        surface:darkGrey,
-        onSurface:Colors.white),
-
-    scaffoldBackgroundColor: darkBg,
-    appBarTheme: AppBarTheme(
-       centerTitle: false,
-    ),
-    textTheme: TextTheme(
-      bodySmall: GoogleFonts.poppins(
-        fontSize: 14.sp,
-        color:secondPrimary,
-      ),
-      bodyMedium: GoogleFonts.poppins(
-        fontSize: 18.sp,
-        fontWeight: FontWeight.w700,
-        color:greyColor,
-      ),
-      bodyLarge: GoogleFonts.poppins(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.bold,
-        color:ThirdPrimary,
-      ),
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: primaryColor,
-      unselectedItemColor: Colors.white,
-      showUnselectedLabels: false,
-      showSelectedLabels: false,
-    ),
-  );
 }

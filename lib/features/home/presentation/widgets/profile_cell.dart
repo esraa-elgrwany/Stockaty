@@ -26,9 +26,10 @@ class ProfileCell extends StatelessWidget{
             fillColor: Color(0xFFDEE2E7).withOpacity(.1),
             filled: true,
             hintText: "Full name",
-            hintStyle: Theme.of(context)
-                .textTheme
-                .bodyMedium,
+            hintStyle: TextStyle(
+                color: greyColor,
+                fontSize: 16
+    ),
             suffixIcon:  Icon(Icons.edit,
                 color: greyColor,
               ),

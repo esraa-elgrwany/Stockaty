@@ -20,7 +20,7 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   var formKey = GlobalKey<FormState>();
- bool secure=true;
+  bool secure = true;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -45,15 +45,12 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
               phone: phoneController.text);
 
           var result = await signUpUseCase.call(requestModel);
-
           result?.fold(
-                  (l) =>
-                  emit(state.copyWith(
-                      screenState: ScreenState.failure,
-                      failures: ServerFailure( l.toString()))),
-                  (r) =>
-                  emit(state.copyWith(
-                      userEntity: r, screenState: ScreenState.success)));
+              (l) => emit(state.copyWith(
+                  screenState: ScreenState.failure,
+                  failures: ServerFailure(l.toString()))),
+              (r) => emit(state.copyWith(
+                  userEntity: r, screenState: ScreenState.success)));
         }
       }
     });

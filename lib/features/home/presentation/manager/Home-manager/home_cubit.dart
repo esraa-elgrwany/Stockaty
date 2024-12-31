@@ -33,7 +33,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
 
   HomeCubit() : super(HomeInitial()) {
-
+    getNumOfCart();
   }
 
   static HomeCubit get(context) => BlocProvider.of(context);
@@ -47,22 +47,23 @@ class HomeCubit extends Cubit<HomeStates> {
   TextEditingController searchController=TextEditingController();
 
 
-
   void changeBottomNav(int index) {
     emit(HomeInitial());
     bottomNavIndex = index;
     emit(ChangeBottomNavBar());
   }
 
-int getNumOfCart(){
- AddToCartModel addToCartModel=AddToCartModel();
- numOfItemsInCart=addToCartModel.numOfCartItems??0;
- print(numOfItemsInCart);
- emit(GetNumOfCartItems());
- return numOfItemsInCart;
-}
+  Future<int> getNumOfCart() async {
+      emit(HomeLoadingState());
+      // Simulating API call or local database fetch
+      AddToCartModel addToCartModel=AddToCartModel();
+      final result = await addToCartModel.numOfCartItems??0; // Replace with your API or database call
+      numOfItemsInCart = result ?? 0;
 
-
+      print("Number of items in cart: $numOfItemsInCart");
+      emit(GetNumOfCartItems());
+      return numOfItemsInCart;// Notify UI to rebuild with updated count
+  }
   void addTCart(String productId) async {
     emit(AddToCartLoadingState());
     ApiManager apiManager = ApiManager();
@@ -72,7 +73,6 @@ int getNumOfCart(){
     var result = await addCartUseCase.call(productId);
     result.fold((l) {
       emit(AddToCartErrorState(l));
-
     }, (r) {
       print("********************");
       print("numberofcart:$numOfItemsInCart");
@@ -80,8 +80,6 @@ int getNumOfCart(){
       emit(AddToCartSuccessState(r));
     });
   }
-
-
 
   getProducts({String? search}) async {
     emit(HomeLoadingState());

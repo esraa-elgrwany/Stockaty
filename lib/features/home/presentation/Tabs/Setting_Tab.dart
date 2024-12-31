@@ -33,8 +33,11 @@ class _SettingTabState extends State<SettingTab> {
             Row(
               children: [
             Text("Log out",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.red)),
+                style: TextStyle(
+                    color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                )),
             Spacer(),
             IconButton(
                 onPressed: () {

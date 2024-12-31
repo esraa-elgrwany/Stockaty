@@ -37,17 +37,17 @@ class _LoginScreenState extends State<LoginScreen> {
               context: context,
               builder: (context) => AlertDialog(
                 title: Text("Error"),
-                content: Text(state.failures?.errormsg??""),
+                content: Text(state.failures?.errormsg??"",style: TextStyle(
+                    fontSize: 14,
+                    color: ThirdPrimary
+                ),),
                 actions: [
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Text("okay",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
+                          style: TextStyle(
                               color:
                               Colors.white))),
                 ],
@@ -80,21 +80,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     Text("Welcome !",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black,
-                          fontSize: 40.sp,
+                        style:TextStyle(color: Colors.black,
+                          fontSize: 40,
                         )),
                     SizedBox(
                       height: 15.h,
                     ),
                     Text("sign in to continue",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(
-                          fontSize: 22.sp,
+                        style: TextStyle(
+                          fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color:Color(0Xff000000).withOpacity(0.3))),
                     SizedBox(
@@ -104,6 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         controller:LoginBloc.get(context).emailController,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "please enter your Email";
@@ -118,11 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         decoration: InputDecoration(
                           label: Text("Email",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                              style: TextStyle(
                                   color: Colors.black,
+                                fontSize: 16
                               )),
                           prefixIcon: Icon(Icons.email_rounded,color: Theme.of(context).colorScheme.secondary,),
                           enabledBorder: OutlineInputBorder(
@@ -145,6 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextFormField(
                       controller: LoginBloc.get(context).passwordController,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black
+                      ),
                       obscureText:LoginBloc.get(context).secure?true:false,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -159,12 +159,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       decoration: InputDecoration(
                         label: Text("Password",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
+                            style: TextStyle(
                               color: Colors.black,
-
+                                fontSize: 16
                             )),
                         prefixIcon: Icon(Icons.lock,color: Theme.of(context).colorScheme.secondary,),
                         suffixIcon:IconButton(onPressed:() {
@@ -191,25 +188,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 60.h,
                     ),
                     Center(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            LoginBloc.get(context).add(LoginBtnClickEvent());
-                          },
-                          style: ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                    horizontal: 145, vertical: 14),
-                              ),
-                              shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadiusDirectional.circular(12.r),
-                                  ))),
-                          child: Text("Sign in",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(color: Colors.white))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  LoginBloc.get(context).add(LoginBtnClickEvent());
+                                },
+                                style: ButtonStyle(
+                  padding: WidgetStatePropertyAll(EdgeInsets.all(12)),
+                                    shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadiusDirectional.circular(12.r),
+                                        ))),
+                                child: Text("Sign in",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                        color: Colors.white))),
+                          ),
+                        ],
+                      ),
                     ),
 
                     SizedBox(height: 60.h),
@@ -223,15 +222,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Row(
                           children: [
                             Text("Don't have an account ? ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color:Colors.black87,fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                    color:Colors.black87,fontWeight: FontWeight.bold)),
                             Text("Sign Up",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: Theme.of(context).colorScheme.onPrimary,fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                    color:
+                                    primaryColor,fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),

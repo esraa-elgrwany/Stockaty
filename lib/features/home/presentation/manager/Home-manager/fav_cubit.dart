@@ -34,9 +34,6 @@ class FavCubit extends Cubit<FavState> {
     result.fold((l) {
       emit(AddToFavErrorState(l));
     }, (r) {
-      print("////////////////////////");
-      print(r.message);
-      print(r.data?.length ?? 0);
       emit(AddToFavSuccessState(r));
     });
   }
@@ -52,10 +49,7 @@ class FavCubit extends Cubit<FavState> {
       print(l);
       emit(RemoveFromFavErrorState(l));
     }, (r) {
-      print("********************");
-      print(r.message);
-      print(r.data?.length ?? 0);
-      favs.length=r.data!.length;
+      favs.removeWhere((fav) => fav.id == productId);
       emit(RemoveFromFavSuccessState(r));
     });
   }

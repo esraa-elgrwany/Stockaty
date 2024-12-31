@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class ProductDetails extends StatefulWidget{
 class _ProductDetailsState extends State<ProductDetails> {
   String favImage="assets/images/heart.png";
   bool fav=false;
+  int sizeIndex=0;
   List<Color> clrs = [
     Color(0xFF2F2929),
     Color(0xFFBC3018),
@@ -34,10 +36,9 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => HomeCubit(),
+  create: (context) => HomeCubit()..getNumOfCart(),
   child: BlocConsumer<HomeCubit, HomeStates>(
   listener: (context, state) {
-    // TODO: implement listener
   },
   builder: (context, state) {
     return Scaffold(
@@ -85,17 +86,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                       height: 40.h,
                       decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(.1),
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(30)),
                       width: 40),
                 ),
               ),
             )
           ],
           title: Text("Product Details",
-             style: Theme.of(context)
-        .textTheme
-        .bodyLarge
-    ),
+             style: TextStyle(
+                 color:ThirdPrimary,
+              fontSize: 20,
+               fontWeight: FontWeight.w600
+
+    )),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -109,17 +112,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                       child: ImageSlideshow(
                           indicatorColor:Theme.of(context).colorScheme.secondary,
                           indicatorBackgroundColor: Colors.white,
-                          height: 300,
+                          height: 280.h,
                           autoPlayInterval: 300000,
                           indicatorRadius: 4,
                           isLoop: true,
                           children: [
                              ClipRRect(
                                   borderRadius: BorderRadiusDirectional.circular(35),
-                                  child: Image.network(widget.item.images?[0]??"",fit: BoxFit.cover,)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.item.images?[0]?? "",
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    width: 120.w,
+                                    height: 100.h,
+                                    fit: BoxFit.fill,
+                                  )),
                              ClipRRect(
                                 borderRadius: BorderRadiusDirectional.circular(35),
-                                  child: Image.network(widget.item.images?[1]??"",fit: BoxFit.cover,)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.item.images?[1]?? "",
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    width: 120.w,
+                                    height: 100.h,
+                                    fit: BoxFit.fill,
+                                  )),
                           ]
                     ),
                     ),
@@ -142,16 +157,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Text(widget.item.title??"",
                               maxLines:2,
                               overflow: TextOverflow.ellipsis,
-                                style:Theme.of(context).textTheme.bodyLarge
+                                style:TextStyle(
+                                  color:ThirdPrimary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600
+                                )
 
                                 )),
                         SizedBox(width: 20.w,),
-                       Text("EGP",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                       Text("EGP",style:
+                       TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
                          color: Color(0xFFFA3434)
                        )),
                        SizedBox(width: 4.w,),
                        Text("${widget.item.price.toString()}",
-                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                         style:TextStyle(
+                           fontSize: 18,
                              color: Color(0xFFFA3434)
                          ),
                         ),
@@ -163,51 +186,79 @@ class _ProductDetailsState extends State<ProductDetails> {
                     Row(
                       children: [
                         Spacer(),
-                        Icon(Icons.star, color: Colors.amberAccent,size: 30,),
+                        Icon(Icons.star, color: Colors.amberAccent,size: 26,),
                         SizedBox(width: 5),
                         Text("${widget.item.ratingsAverage}",
-                                    style: Theme.of(context).textTheme.bodyLarge),
-
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: ThirdPrimary,
+                                      fontWeight: FontWeight.w600
+                                    )),
                       ],
                     ),
                     SizedBox(height:8.h),
                     Text("Description",
-                        style: Theme.of(context).textTheme.bodyLarge),
+                        style:TextStyle(
+                            fontSize: 18,
+                            color: ThirdPrimary,
+                            fontWeight: FontWeight.w600
+                        ) ),
                     SizedBox(height: 5),
                     Text(
                       "${widget.item.description}",
-                      style: Theme.of(context).textTheme.bodySmall
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: greyColor,
+                      )
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 8),
                     Text("Size",
-                        style:Theme.of(context).textTheme.bodyLarge),
+                        style:TextStyle(
+                            fontSize: 18,
+                            color: ThirdPrimary,
+                            fontWeight: FontWeight.w600
+                        )),
                     SizedBox(
-                        height: 50,
+                        height: 40,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: size.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                child: Center(
-                                    child: Text(
-                                      "${size[index]}",
-                                      style: TextStyle(
-                                          color: index == 2
-                                              ? Colors.white
-                                              : Colors.black),
-                                    )),
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: index == 2
-                                        ?greenColor
-                                        : Colors.white),
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    sizeIndex=index;
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(
+                                      child: Text(
+                                        "${size[index]}",
+                                        style: TextStyle(
+                                            color: sizeIndex == index
+                                                ? Colors.white
+                                                : Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                      )),
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color:  sizeIndex==index
+                                          ?greenColor
+                                          : Colors.white),
+                                ),
                               );
                             })),
+                    SizedBox(height: 8,),
                     Text("Color",
-                        style: Theme.of(context).textTheme.bodyLarge),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: ThirdPrimary,
+                            fontWeight: FontWeight.w600
+                        )),
                     SizedBox(
                         height: 50,
                         child: ListView.builder(
@@ -219,7 +270,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
                                   width: 40,
-                                  height: 40,
+                                  height: 40.h,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25),
                                       color: clrs[index]),
@@ -248,23 +299,25 @@ class _ProductDetailsState extends State<ProductDetails> {
                     child: Text("Add To Cart",
                         style: TextStyle(
                             color:Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20))),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18))),
                 height: 50.h,
                 decoration: BoxDecoration(
                   color: primaryColor,
                     borderRadius: BorderRadius.circular(14.r)),
-                width: MediaQuery.of(context).size.width *.75,
+                width: MediaQuery.of(context).size.width *.70,
               ),
             ),
-            Spacer(),
+Spacer(),
             Container(
+              width: 50,
+              height: 60.h,
               decoration: BoxDecoration(
                 border:Border.all(
                   color: Color(0xFFDEE2E7),
                   width: 2,
                 ),
-                borderRadius: BorderRadius.circular(8)
+                borderRadius: BorderRadius.circular(12)
               ),
               child: IconButton(
                 onPressed: () {
@@ -278,11 +331,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       fontSize: 13,
                     ),
                   ),
-                  largeSize: 15,
+                  largeSize: 20,
                   alignment: Alignment.topRight,
                   child: ImageIcon(
                     AssetImage("assets/images/cart.png"),
-                    size: 90.sp,
+                    size: 40,
                   ),
                 ),
               ),

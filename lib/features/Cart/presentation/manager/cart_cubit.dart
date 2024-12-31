@@ -18,6 +18,19 @@ class CartCubit extends Cubit<CartStates> {
 
   static CartCubit get(context) => BlocProvider.of(context);
 
+  void getCart() async {
+    emit(CartLoadingStates("Loading...."));
+    CartDomainRepo cartDomainRepo = CartDataRepo(cartDto);
+    CartUseCase cartUseCase = CartUseCase(cartDomainRepo);
+    var result = await cartUseCase.call();
+    result.fold((l) {
+      print(l.errormsg);
+      emit(CartErrorStates(l));
+    }, (r) {
+      emit(CartSuccessStates(r));
+    });
+  }
+
   void update(String id, int count) async {
     CartDomainRepo cartDomainRepo = CartDataRepo(cartDto);
     CartUseCase cartUseCase = CartUseCase(cartDomainRepo);
@@ -41,18 +54,7 @@ class CartCubit extends Cubit<CartStates> {
     });
   }
 
-  void getCart() async {
-    emit(CartLoadingStates("Loading...."));
-    CartDomainRepo cartDomainRepo = CartDataRepo(cartDto);
-    CartUseCase cartUseCase = CartUseCase(cartDomainRepo);
-    var result = await cartUseCase.call();
-    result.fold((l) {
-      print(l.errormsg);
-      emit(CartErrorStates(l));
-    }, (r) {
-      emit(CartSuccessStates(r));
-    });
-  }
+
 
 
 }

@@ -27,7 +27,12 @@ class _FavTabState extends State<FavTab> {
     builder: (context, state) {
     return
     FavCubit.get(context).favs.isEmpty
-    ? Center(child: const CircularProgressIndicator())
+    ? Center(
+      child: Text("No Fav items",style:TextStyle(
+          color:secondPrimary,
+          fontSize: 22,
+      )),
+    )
     :
     Expanded(
             child: ListView.builder(

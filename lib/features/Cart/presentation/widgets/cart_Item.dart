@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/core/utils/app_colors.dart';
@@ -14,9 +15,8 @@ class CartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 390.w,
-      height: 140.h,
       margin: EdgeInsets.all(8),
+      padding: EdgeInsets.all(4),
       //clipBehavior: Clip.antiAlias,
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -28,18 +28,14 @@ class CartItem extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 15.w,),
-          Container(
-            width: 120.w,
-            height: 100.h,
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              image: DecorationImage(
-                image: NetworkImage(product.product!.imageCover ?? ""),
-                fit: BoxFit.fill,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadiusDirectional.circular(12),
+            child: CachedNetworkImage(
+              imageUrl:product.product?.imageCover?? "",
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              width: 120.w,
+              height: 100.h,
+              fit: BoxFit.fill,
             ),
           ),
           SizedBox(
@@ -55,8 +51,10 @@ class CartItem extends StatelessWidget {
                     Text(
                       product.product?.title?.substring(0,11) ?? "",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black
+                      style:TextStyle(
+                        fontSize: 16,
+                        color:ThirdPrimary,
+                        fontWeight: FontWeight.w600
                       )
                     ),
                     IconButton(
@@ -76,8 +74,9 @@ class CartItem extends StatelessWidget {
             Row(
               children: [
                 Text("Brand : ${product.product?.brand?.name ?? ""}",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: secondPrimary
+                    style: TextStyle(
+                        color: secondPrimary,
+                      fontSize: 14
                     )),
               ],
             ),
@@ -87,26 +86,31 @@ class CartItem extends StatelessWidget {
             Row(
               children: [
                 Text("Review (${product.product?.ratingsAverage})",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    style:TextStyle(
+                      fontSize: 14,
                       color: secondPrimary
                     )),
                 SizedBox(width:8),
                 Icon(Icons.star, color: Colors.amberAccent,size:20,),
 
               ]),
+                SizedBox(
+                  height: 6.h,
+                ),
                 Row(
                   children: [
                     Text(
                       "${product.price} EGP",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black87
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14
                       ),
                     ),
-                    Spacer(
-                    ),
+                    Spacer(),
                     Container(
-                        padding: const EdgeInsets.all(4),
+                        //width: 120.w,
+                        height: 32.h,
                         margin: EdgeInsets.only(right: 4,bottom: 1),
                         decoration: BoxDecoration(
                           color:Colors.white,
@@ -132,16 +136,10 @@ class CartItem extends StatelessWidget {
                                   size: 20,
                                   color:Color(0xFF8B96A5),
                                 )),
-                            SizedBox(
-                              width: 15.w,
-                            ),
                             Text(
                               product.count.toString() ?? "0",
                               style:
                               TextStyle(fontSize: 18, color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: 15.w,
                             ),
                             IconButton(
                                 padding: EdgeInsets.zero,

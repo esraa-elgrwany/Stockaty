@@ -21,7 +21,10 @@ class HomeTab extends StatelessWidget {
             builder: (context) =>
                 AlertDialog(
                   title: Text("Error"),
-                  content: Text(state.failures.errormsg),
+                  content: Text(state.failures.errormsg,style: TextStyle(
+                      fontSize: 14,
+                      color: ThirdPrimary
+                  ),),
                 ),
           );
         }
@@ -46,10 +49,10 @@ class HomeTab extends StatelessWidget {
                             fillColor: Color(0xFFDEE2E7).withOpacity(.3),
                             filled: true,
                             hintText: "Search",
-                            hintStyle: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyMedium,
+                            hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: greyColor
+                          ),
                             prefixIcon: IconButton(
                               onPressed: () {
                                 HomeCubit.get(context).
@@ -125,16 +128,18 @@ class HomeTab extends StatelessWidget {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Categories',
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyLarge
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: secondPrimary,
+                                  fontWeight: FontWeight.w600
+                              ),
                           ),
                           Text('view all',
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyLarge),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: secondPrimary,
+                                  fontWeight: FontWeight.w600
+                              ),),
                         ]),
                     SizedBox(
                       height: 10.h,
@@ -172,10 +177,11 @@ class HomeTab extends StatelessWidget {
                     Row(
                       children: [
                         Text("Products",
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyLarge),
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: secondPrimary,
+                              fontWeight: FontWeight.w600
+                            ),),
                       ],
                     ),
                     SizedBox(
@@ -191,11 +197,7 @@ class HomeTab extends StatelessWidget {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 20,
-                          mainAxisExtent:
-                          MediaQuery
-                              .of(context)
-                              .size
-                              .height - 652.h,
+                         childAspectRatio: .68,
                           crossAxisCount: 2,
                         ),
                         itemCount: HomeCubit

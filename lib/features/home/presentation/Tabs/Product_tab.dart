@@ -32,9 +32,10 @@ class ProductsTab extends StatelessWidget {
                                   fillColor: Color(0xFFDEE2E7).withOpacity(.3),
                                   filled: true,
                                   hintText: "Search",
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium,
+                                  hintStyle:TextStyle(
+                                      fontSize: 16,
+                                      color: greyColor
+                                  ),
                                   prefixIcon: IconButton(
                                     onPressed: () {
                                       HomeCubit.get(context).
@@ -73,9 +74,8 @@ class ProductsTab extends StatelessWidget {
                               SliverGridDelegateWithFixedCrossAxisCount(
                             mainAxisSpacing: 20,
                             crossAxisSpacing: 20,
-                            mainAxisExtent:
-                                MediaQuery.of(context).size.height - 652.h,
                             crossAxisCount: 2,
+                                childAspectRatio: .68
                           ),
                           itemCount: HomeCubit.get(context).products.length,
                           padding: EdgeInsets.symmetric(

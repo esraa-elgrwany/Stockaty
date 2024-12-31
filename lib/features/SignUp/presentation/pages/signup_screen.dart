@@ -23,9 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                elevation: 0,
-                title: Text("loading"),
-                content: Center(child: CircularProgressIndicator()),
+                title: Center(child: CircularProgressIndicator()),
               ),
             );
           } else if (state.screenState == ScreenState.failure) {
@@ -34,17 +32,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               context: context,
               builder: (context) => AlertDialog(
                 title: Text("Error"),
-                content: Text(state.failures?.errormsg ?? ""),
+                content: Text(state.failures?.errormsg ?? "",style: TextStyle(
+                  fontSize: 14,
+                  color: ThirdPrimary
+                ),),
                 actions: [
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     child: Text("Okey",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.white)),
+                        style: TextStyle(
+                          fontSize: 16,
+                            color: Colors.white)),
                   ),
                 ],
               ),
@@ -74,21 +74,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                     Text("Hi !",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black,
-                          fontSize: 40.sp,
+                        style: TextStyle(color: Colors.black,
+                          fontSize: 40,
                         )),
                     SizedBox(
                       height: 15.h,
                     ),
                     Text("Creat a new account",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(
-                            fontSize: 22.sp,
+                        style:TextStyle(
+                            fontSize: 22,
                             fontWeight: FontWeight.w400,
                             color:Color(0Xff000000).withOpacity(0.3))),
                     SizedBox(
@@ -96,6 +90,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextFormField(
                       controller: SignupBloc.get(context).nameController,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please enter your user name";
@@ -104,11 +102,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       decoration: InputDecoration(
                         label: Text("User name",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                              color: Colors.black,)),
+                            style: TextStyle(
+                              color: Colors.black,
+                            fontSize: 16)),
                         prefixIcon: Icon(Icons.person_outlined,
                             color: Theme.of(context).colorScheme.secondary),
                         enabledBorder: OutlineInputBorder(
@@ -132,6 +128,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextFormField(
                       keyboardType: TextInputType.number,
                       controller: SignupBloc.get(context).phoneController,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please enter your phone number";
@@ -140,11 +140,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       decoration: InputDecoration(
                         label: Text("Phone",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                              color: Colors.black,)),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16)),
                         prefixIcon: Icon(Icons.phone,
                             color: Theme.of(context).colorScheme.secondary),
                         enabledBorder: OutlineInputBorder(
@@ -169,6 +167,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       controller: SignupBloc.get(context).emailController,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please enter your Email";
@@ -183,11 +185,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       decoration: InputDecoration(
                         label: Text("Email",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                              color: Colors.black,)),
+                            style:TextStyle(
+                                color: Colors.black,
+                                fontSize: 16)),
                         prefixIcon: Icon(Icons.email_rounded,
                             color: Theme.of(context).colorScheme.secondary),
                         enabledBorder: OutlineInputBorder(
@@ -211,6 +211,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       obscureText:
                           SignupBloc.get(context).secure ? true : false,
                       controller: SignupBloc.get(context).passwordController,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "please enter your password";
@@ -224,11 +228,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       decoration: InputDecoration(
                         label: Text("Password",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                              color: Colors.black,)),
+                            style:TextStyle(
+                                color: Colors.black,
+                                fontSize: 16)),
                         prefixIcon: Icon(Icons.lock,
                             color: Theme.of(context).colorScheme.secondary),
                         suffixIcon: IconButton(
@@ -261,25 +263,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 40.h,
                     ),
                     Center(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            SignupBloc.get(context).add(SignUpBtnClick());
-                          },
-                          style: ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                    horizontal:140, vertical:16),
-                              ),
-                              shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(12.r),
-                              ))),
-                          child: Text("Sign Up",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(color: Colors.white))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  SignupBloc.get(context).add(SignUpBtnClick());
+                                },
+                                style: ButtonStyle(
+                                    padding: WidgetStatePropertyAll(EdgeInsets.all(12)),
+                                    shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(12.r),
+                                    ))),
+                                child: Text("Sign Up",
+                                    style: TextStyle(
+                                    fontSize:18,
+                                    color: Colors.white
+                                ),)),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 40.h),
                     InkWell(
@@ -290,23 +295,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Row(
                         children: [
                           Text("Already have an account ? ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                              style:TextStyle(
+                                fontSize: 16,
                                       color: Colors.black87,
                                   fontWeight: FontWeight.bold)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("Sign in",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,fontWeight: FontWeight.bold)),
+                                  style: TextStyle(
+                                          color:primaryColor ,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                             ],
                           ),
                         ],

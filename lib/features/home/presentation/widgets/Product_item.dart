@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/config/routes/routes.dart';
@@ -30,11 +31,12 @@ class _ProductListItemState extends State<ProductListItem> {
       },
       child: Card(
         elevation: 8,
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Container(
-            height: 170.h,
+            height: 140.h,
             width: 191.w,
             alignment: Alignment.center,
             child: Stack(
@@ -46,11 +48,12 @@ class _ProductListItemState extends State<ProductListItem> {
             borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15.r),
             topRight: Radius.circular(15.r)),
-        child: Image.network(
-          widget.item.images?[0] ?? "",
+        child: CachedNetworkImage(
+          imageUrl:widget.item.imageCover??"" ,
+          errorWidget: (context, url, error) => Icon(Icons.error),
           height: 138.h,
-          fit: BoxFit.cover,
           width: double.infinity,
+          fit: BoxFit.cover
         ),
       ),
       Padding(
@@ -64,24 +67,21 @@ class _ProductListItemState extends State<ProductListItem> {
                 widget.item.title ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(
-                    color: Colors.black
+                style: TextStyle(
+                    color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold
                 )
             ),
             Text(
                 widget.item.description ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(
-                    color: ThirdPrimary)
+                style: TextStyle(
+                    color: ThirdPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500
+                )
             ),
             SizedBox(
               height: 6.h,
@@ -89,13 +89,10 @@ class _ProductListItemState extends State<ProductListItem> {
             Row(
               children: [
                 Text('Review (${widget.item.ratingsAverage})',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(
+                    style: TextStyle
+                       (
                         color: ThirdPrimary,
-                        fontSize: 12.sp
+                        fontSize: 12
                     )),
                 SizedBox(
                   width: 4.w,
@@ -113,23 +110,21 @@ class _ProductListItemState extends State<ProductListItem> {
             Row(
               children: [
                 Text("EGP",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(
-                        color: Colors.black87)),
+                    style: TextStyle(
+                        color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500
+                    )),
                 SizedBox(
                   width: 4.w,
                 ),
                 Text(
                   "${widget.item.price}",
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(
-                      color: Colors.black87),
+                  style:  TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500
+                  )
                 ),
                 Spacer(),
                 InkWell(
@@ -138,12 +133,13 @@ class _ProductListItemState extends State<ProductListItem> {
                         .addTCart(widget.item.id ?? "");
                   },
                   child: CircleAvatar(
-                    radius: 14.r,
+                    radius: 12.r,
                     backgroundColor: greenColor,
                     child: const Center(
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
+                        size: 20,
                       ),
                     ),
                   ),

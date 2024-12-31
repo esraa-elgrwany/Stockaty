@@ -83,8 +83,8 @@ class ProductData {
   String? title;
   String? slug;
   String? description;
-  int? quantity;
-  int? price;
+  num? quantity;
+  num? price;
   String? imageCover;
   Category? category;
   Brand? brand;

@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (state is HomeGetCategoriesSuccessState) {}
         },
         builder: (context, state) {
+          final cartCount = HomeCubit.get(context).numOfItemsInCart;
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 90.h,
@@ -62,18 +63,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: Badge(
                           label: Text(
-                            HomeCubit.get(context).numOfItemsInCart.toString(),
+                            cartCount.toString(),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,
                             ),
                           ),
-                          largeSize: 15,
+                          largeSize: 20,
                           alignment: Alignment.topRight,
                           child: ImageIcon(
                             AssetImage("assets/images/cart.png"),
                             color: Colors.black,
-                            size: 100,
+                            size: 40,
                           ),
                         ),
                       ),

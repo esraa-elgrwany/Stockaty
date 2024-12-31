@@ -21,7 +21,6 @@ class AddToFavErrorState extends FavState {
 
 class RemoveFromFavSuccessState extends FavState {
   RemoveFromFav favModel;
-
   RemoveFromFavSuccessState(this.favModel);
 }
 

@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_shopping_app/core/utils/app_colors.dart';
 import 'package:my_shopping_app/features/Cart/data/data_sources/cart_remote_ds_impl.dart';
 import 'package:my_shopping_app/features/Cart/presentation/manager/cart_cubit.dart';
-
 import '../widgets/cart_Item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -17,7 +15,8 @@ class CartScreen extends StatelessWidget {
       create: (context) => CartCubit(CartRemoteDsImpl())..getCart(),
       child: BlocConsumer<CartCubit, CartStates>(
         listener: (context, state) {},
-        builder: (context, state) {
+        builder:
+            (context, state) {
           if (state is CartSuccessStates) {
             return Scaffold(
               appBar: AppBar(
@@ -37,9 +36,11 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 title: Text("Shopping Cart",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: secondPrimary,
+                        fontWeight: FontWeight.w600
+                    ),
                 ),
               ),
               bottomNavigationBar: Padding(
@@ -60,15 +61,19 @@ class CartScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text("Total Price :",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color:Colors.black
+                            Text("Total Price :",style:
+                            TextStyle(
+                              fontSize: 18,
+                              color:ThirdPrimary,
+                              fontWeight: FontWeight.w600
                             ),),
                             Spacer(),
                             Text("${state.cartResponse.data?.totalCartPrice} EGP",
-                                style:Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!.copyWith(
-                                    color:Colors.black))
+                                style:TextStyle(
+                                    fontSize: 18,
+                                    color:ThirdPrimary,
+                                    fontWeight: FontWeight.w600
+                                ),)
                           ],
                         ),
                         Row(
@@ -76,10 +81,6 @@ class CartScreen extends StatelessWidget {
                             Expanded(
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 60,
-                                      vertical: 10
-                                    ) ,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(
                                           24
@@ -89,9 +90,10 @@ class CartScreen extends StatelessWidget {
                                   onPressed: () {
 
                                   },
-                                  child: Text(" Check Out ",style:Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!.copyWith(color: Colors.white,))
+                                  child: Text(" Check Out ",style:TextStyle(
+                                      fontSize: 18,
+                                      color:Colors.white,
+                                  ),)
                                     ),
                             ),
                           ],
